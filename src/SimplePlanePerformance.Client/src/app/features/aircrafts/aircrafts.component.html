@@ -1,0 +1,20 @@
+<app-status [status]="status$ | async"></app-status>
+
+@if (showNoDataFound$ | async) {
+  <div class="empty-page-flex">
+    <mat-icon>info_outline</mat-icon>
+    <h1>Looks like you have no aircrafts yet!</h1>
+    <div>Performance calculations are made for a specific aircraft. You must have atleast 1 aircraft.</div>
+    <button mat-flat-button color="primary" (click)="openAddAircraftDialog()"><mat-icon>add</mat-icon> Add Aircraft</button>
+  </div>
+}
+@else {
+  <div class="table-actions">
+    <mat-form-field class="search-input" appearance="outline">
+      <mat-label>Search registration</mat-label>
+      <input matInput>
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <button mat-flat-button color="primary" (click)="openAddAircraftDialog()"><mat-icon>add</mat-icon> Add Aircraft</button>
+  </div>
+}
