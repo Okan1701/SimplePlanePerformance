@@ -93,11 +93,6 @@ public class AircraftService : IAircraftService
         {
             throw new EntityValidationException("Registration cannot be empty");
         }
-
-        if (string.IsNullOrWhiteSpace(aircraft.Manufacturer))
-        {
-            throw new EntityValidationException("Manufacturer cannot be empty");
-        }
         
         if (string.IsNullOrWhiteSpace(aircraft.Model))
         {

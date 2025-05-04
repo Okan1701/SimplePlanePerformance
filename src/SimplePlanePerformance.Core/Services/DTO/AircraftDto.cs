@@ -7,8 +7,6 @@ public class AircraftDto : EntityDto
 {
     public required string Registration { get; set; }
     
-    public required string Manufacturer { get; set; }
-    
     public required string Model { get; set; }
     
     public AircraftType Type { get; set; }
@@ -26,7 +24,6 @@ public class AircraftDto : EntityDto
     public static AircraftDto FromAircraft(Aircraft aircraft) => new()
     {
         Registration = aircraft.Registration,
-        Manufacturer = aircraft.Manufacturer,
         Model = aircraft.Model,
         Type = aircraft.Type,
         FuelType = aircraft.FuelType,

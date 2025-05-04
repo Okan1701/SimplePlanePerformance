@@ -12,7 +12,7 @@ using SimplePlanePerformance.Core.Data;
 namespace SimplePlanePerformance.Core.Data.Migrations
 {
     [DbContext(typeof(SppDataContext))]
-    [Migration("20250422201403_InitialMigration")]
+    [Migration("20250424195256_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -38,10 +38,6 @@ namespace SimplePlanePerformance.Core.Data.Migrations
 
                     b.Property<int>("FuelType")
                         .HasColumnType("int");
-
-                    b.Property<string>("Manufacturer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("MaxLandingCrossWind")
                         .HasColumnType("int");

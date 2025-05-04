@@ -10,9 +10,6 @@ public class CreateAircraftDto
     public required string Registration { get; set; }
     
     [Required]
-    public required string Manufacturer { get; set; }
-    
-    [Required]
     public required string Model { get; set; }
     
     [Required]
@@ -32,7 +29,6 @@ public class CreateAircraftDto
     public Aircraft ToAircraftEntity() => new()
     {
         Registration = Registration,
-        Manufacturer = Manufacturer,
         Model = Model,
         Type = Type,
         FuelType = FuelType,

@@ -36,10 +36,6 @@ namespace SimplePlanePerformance.Core.Data.Migrations
                     b.Property<int>("FuelType")
                         .HasColumnType("int");
 
-                    b.Property<string>("Manufacturer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("MaxLandingCrossWind")
                         .HasColumnType("int");
 

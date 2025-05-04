@@ -6,8 +6,6 @@ public class Aircraft : Entity
 {
     public required string Registration { get; set; }
     
-    public required string Manufacturer { get; set; }
-    
     public required string Model { get; set; }
     
     public AircraftType Type { get; set; }
