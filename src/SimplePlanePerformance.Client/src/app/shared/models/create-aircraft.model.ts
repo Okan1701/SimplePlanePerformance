@@ -2,7 +2,7 @@ import { AircraftType } from '../enums/aircraft-type.enum';
 import { FuelType } from '../enums/fuel-type.enum';
 
 export type CreateAircraft = {
-  registrationId: string;
+  registration: string;
   model: string;
   type: AircraftType;
   fuelType: FuelType;
