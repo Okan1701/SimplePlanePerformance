@@ -1,4 +1,4 @@
-import {BehaviorSubject, Observable, tap} from 'rxjs';
+import {BehaviorSubject, delay, Observable, tap} from 'rxjs';
 import {Aircraft} from '../../shared/models/aircraft.model';
 import {environment} from "../../../environments/environment"
 import {Status} from '../../shared/enums/status.enum';
@@ -25,11 +25,11 @@ export class AircraftsService {
 		return this.aircraftsSubject.asObservable();
 	}
 
-	public loadAircrafts(): void {
-		if (this.statusSubject.value === Status.Success) return
+	public loadAircrafts(force: boolean = false): void {
+		if (this.statusSubject.value === Status.Success && !force) return
 
 		this.statusSubject.next(Status.Loading);
-		this.httpClient.get<Aircraft[]>(endpoint).subscribe(aircraft => {
+		this.httpClient.get<Aircraft[]>(endpoint).pipe(delay(force ? 500 : 0)).subscribe(aircraft => {
 			this.aircraftsSubject.next(aircraft);
 			this.statusSubject.next(Status.Success);
 		})
@@ -40,8 +40,7 @@ export class AircraftsService {
 			tap(aircraft => {
 				if (aircraft?.id) {
 					this.matSnackBar.open(`${aircraft.registration} has been added`);
-					this.statusSubject.next(Status.Loading);
-					this.loadAircrafts();
+					this.loadAircrafts(true);
 				}
 			})
 		);
@@ -51,8 +50,7 @@ export class AircraftsService {
 		return this.httpClient.delete<void>(`${endpoint}/${aircraft.id}`).pipe(
 			tap(() => {
 				this.matSnackBar.open(`${aircraft.registration} has been deleted`);
-				this.statusSubject.next(Status.Loading);
-				this.loadAircrafts();
+				this.loadAircrafts(true);
 			})
 		);
 	}

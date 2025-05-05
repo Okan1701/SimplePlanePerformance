@@ -66,6 +66,10 @@ export class AircraftsComponent implements OnInit {
 		this.aircraftsService.loadAircrafts();
 	}
 
+	protected refresh(): void {
+		this.aircraftsService.loadAircrafts(true)
+	}
+
 	protected openAddAircraftDialog(): void {
 		this.dialog.open(AddAircraftDialogComponent, {
 			disableClose: true
@@ -79,4 +83,6 @@ export class AircraftsComponent implements OnInit {
 			role: "alertdialog"
 		});
 	}
+
+	protected readonly Status = Status;
 }
