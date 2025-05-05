@@ -1,5 +1,8 @@
 @use '@angular/material' as mat;
 
+$warn-color: orange;
+$danger-color: #a10000;
+
 //body {
 //  background-color: var(--mat-sys-on-background);
 //  margin: 0;
@@ -23,4 +26,24 @@ html {
     container-background-color: var(--mat-sys-secondary-container),
     container-text-color: var(--mat-sys-on-secondary-container),
   ));
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.small-badge {
+	margin-left: 10px;
+	font-size: 10px;
+	padding: 2px 5px;
+	border-radius: 5px;
+	background-color: var(--mat-sys-secondary-container);
+}
+
+.badge {
+	padding: 2px 10px;
+	border-radius: 10px;
+	background-color: var(--mat-sys-secondary-container);
 }

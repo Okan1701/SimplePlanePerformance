@@ -1,20 +1,64 @@
 <app-status [status]="status$ | async"></app-status>
 
-@if (showNoDataFound$ | async) {
-  <div class="empty-page-flex">
-    <mat-icon>info_outline</mat-icon>
-    <h1>Looks like you have no aircrafts yet!</h1>
-    <div>Performance calculations are made for a specific aircraft. You must have atleast 1 aircraft.</div>
-    <button mat-flat-button color="primary" (click)="openAddAircraftDialog()"><mat-icon>add</mat-icon> Add Aircraft</button>
-  </div>
-}
-@else {
-  <div class="table-actions">
-    <mat-form-field class="search-input" appearance="outline">
-      <mat-label>Search registration</mat-label>
-      <input matInput>
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-    <button mat-flat-button color="primary" (click)="openAddAircraftDialog()"><mat-icon>add</mat-icon> Add Aircraft</button>
-  </div>
-}
+<div class="page-content">
+  @if (showNoDataFound$ | async) {
+    <div class="empty-page-flex">
+      <mat-icon>info_outline</mat-icon>
+      <h1>Looks like you have no aircrafts yet!</h1>
+      <div>Performance calculations are made for a specific aircraft. You must have atleast 1 aircraft.</div>
+      <button mat-flat-button color="primary" (click)="openAddAircraftDialog()"><mat-icon>add</mat-icon> Add Aircraft</button>
+    </div>
+  }
+  @else {
+    <div class="table-actions">
+      <mat-form-field class="search-input" appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Search registration</mat-label>
+        <input matInput>
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <button mat-flat-button color="primary" (click)="openAddAircraftDialog()"><mat-icon>add</mat-icon> Add Aircraft</button>
+    </div>
+    <table mat-table [dataSource]="tableData" matSort>
+
+      <ng-container matColumnDef="registration">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Registration / Callsign <span matTooltip="{{ tableData.data.length }} aircraft" class="small-badge">{{ tableData.data.length }}</span></th>
+        <td mat-cell *matCellDef="let element"> {{element.registration}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="model">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Aircraft </th>
+        <td mat-cell *matCellDef="let element"> {{element.model}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fuelType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fuel Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.fuelType}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell style="width:16px" *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button [matMenuTriggerFor]="actionsMenu"><mat-icon>more_vert</mat-icon></button>
+          <mat-menu #actionsMenu>
+            <button mat-menu-item>
+              <mat-icon>edit</mat-icon>
+              <span>View/Edit</span>
+            </button>
+            <button (click)="deleteAircraft(element)" class="warn" mat-menu-item>
+              <mat-icon color="warn">delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
+    </table>
+  }
+</div>

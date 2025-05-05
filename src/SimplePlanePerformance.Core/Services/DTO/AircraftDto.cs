@@ -23,6 +23,9 @@ public class AircraftDto : EntityDto
 
     public static AircraftDto FromAircraft(Aircraft aircraft) => new()
     {
+        Id = aircraft.Id,
+        CreatedDate = aircraft.CreatedDate,
+        ModifiedDate = aircraft.ModifiedDate,
         Registration = aircraft.Registration,
         Model = aircraft.Model,
         Type = aircraft.Type,

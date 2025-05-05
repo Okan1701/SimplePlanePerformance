@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>Confirm Delete</h2>
+<mat-dialog-content>
+	<div class="content">
+		<mat-icon class="alert-icon">warning</mat-icon>
+		<div>
+			You are about to delete the following aircraft:<br/>
+			<p>
+				<span class="badge">{{ aircraft.registration }}</span>
+				<span class="model-label">{{ aircraft.model }}</span>
+			</p>
+			@switch (status) {
+				@case (Status.None) {
+					<p>This action is permanent and cannot be undone!</p>
+				}
+				@case (Status.Loading) {
+					<p class="loading">
+						<mat-spinner [diameter]="16"></mat-spinner>
+						<i>Deleting aircraft</i>
+					</p>
+				}
+				@case (Status.Error) {
+					<p class="error-message">An error has occurred while deleting.</p>
+				}
+			}
+		</div>
+	</div>
+</mat-dialog-content>
+<mat-dialog-actions>
+	<button mat-button mat-dialog-close [disabled]="status === Status.Loading">Cancel</button>
+	<button mat-flat-button color="warn" class="btn-delete" [disabled]="status === Status.Loading" (click)="deleteAircraft()">Delete</button>
+</mat-dialog-actions>
