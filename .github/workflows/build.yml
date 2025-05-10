@@ -38,7 +38,6 @@ jobs:
         
       - name: Copy Client to publish
         run: cp -R ./src/SimplePlanePerformance.Client/dist/ ./publish/
-        working-directory: src/SimplePlanePerformance.Client
         
       - name: Upload artifacts
         uses: actions/upload-artifact@v4.3.2
