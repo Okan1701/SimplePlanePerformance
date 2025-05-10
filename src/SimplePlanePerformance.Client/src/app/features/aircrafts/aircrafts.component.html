@@ -1,5 +1,3 @@
-<app-status [status]="status$ | async"></app-status>
-
 @if ((status$ | async) === Status.Success) {
 	<div class="page-content">
 		@if (showNoDataFound$ | async) {

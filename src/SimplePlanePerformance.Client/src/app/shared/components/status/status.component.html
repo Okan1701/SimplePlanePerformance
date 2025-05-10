@@ -1,15 +1,18 @@
-@switch (status) {
-  @case (Status.Loading) {
-    <div>
-      <mat-progress-spinner></mat-progress-spinner>
-      <div>Loading information</div>
-    </div>
-  }
-  @case (Status.Error) {
-    <div>
-      <mat-icon>error</mat-icon>
-      <div>Something went wrong!</div>
-      <div>Unable to display this page. Please try again later.</div>
-    </div>
-  }
-}
+<div class="status-container">
+	@switch (status) {
+		@case (Status.Loading) {
+			<div class="status-content">
+				<mat-spinner [diameter]="48"></mat-spinner>
+				<h2>Retrieving information</h2>
+			</div>
+		}
+		@case (Status.Error) {
+			<div class="status-content">
+				<mat-icon class="error-icon">error</mat-icon>
+				<h2 class="no-margin">Something went wrong!</h2>
+				<i>Unable to display this page. Please try again later.</i>
+			</div>
+		}
+	}
+
+</div>
