@@ -37,7 +37,7 @@ jobs:
         working-directory: src/SimplePlanePerformance.Client
         
       - name: Copy Client to publish
-        run: cp -R ./src/SimplePlanePerformance.Client/dist/* ./publish/*
+        run: cp -R ./src/SimplePlanePerformance.Client/dist/ ./publish/
         working-directory: src/SimplePlanePerformance.Client
         
       - name: Upload artifacts
