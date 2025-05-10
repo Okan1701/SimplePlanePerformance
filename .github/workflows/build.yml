@@ -1,0 +1,51 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.9.1
+        with:
+          node-version: 22.x
+      
+      - name: Publish API
+        run: dotnet publish -c Release --runtime win-x64 -o ./publish/SimplePlanePerformance.WebAPI ./src/SimplePlanePerformance.WebAPI
+        
+      - name: Restore NPM dependancies
+        run: npm ci
+        working-directory: src/SimplePlanePerformance.Client
+
+      - name: Publish Client
+        run: npm run build
+        working-directory: src/SimplePlanePerformance.Client
+        
+      - name: Copy Client to publish
+        run: cp -R ./src/SimplePlanePerformance.Client/dist/* ./publish/*
+        working-directory: src/SimplePlanePerformance.Client
+        
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4.3.2
+        with:
+          name: simpleplaneperformance-win-x64
+          retention-days: 1
+          path: ./publish/*
+          if-no-files-found: error
+      
+    
