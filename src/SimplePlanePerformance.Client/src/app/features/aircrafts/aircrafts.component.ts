@@ -19,6 +19,7 @@ import { DeleteAircraftDialogComponent } from './delete-aircraft-dialog/delete-a
 import { FormatAircraftTypePipe } from '../../shared/pipes/format-aircraft-type.pipe';
 import { FormatFuelTypePipe } from '../../shared/pipes/format-fuel-type.pipe';
 import { LoadingService } from '../../shared/services/loading.service';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
 	selector: 'app-aircrafts',
@@ -33,7 +34,8 @@ import { LoadingService } from '../../shared/services/loading.service';
 		MatTooltipModule,
 		MatMenuModule,
 		FormatAircraftTypePipe,
-		FormatFuelTypePipe
+		FormatFuelTypePipe,
+		ReactiveFormsModule
 	],
 	templateUrl: './aircrafts.component.html',
 	styleUrl: './aircrafts.component.scss'
@@ -48,9 +50,11 @@ export class AircraftsComponent implements OnInit {
 		"type",
 		"fuelType",
 		"actions"
-	]
+	];
+	protected filterForm;
+	protected showClearButton = false;
 
-	constructor(private aircraftsService: AircraftsService, private dialog: MatDialog, loadingService: LoadingService) {
+	constructor(private aircraftsService: AircraftsService, private dialog: MatDialog, private formBuilder: FormBuilder, loadingService: LoadingService) {
 		this.aircraftsService.aircrafts$.pipe(
 			takeUntilDestroyed()
 		).subscribe(aircraft => this.tableData.data = aircraft);
@@ -58,6 +62,17 @@ export class AircraftsComponent implements OnInit {
 		this.aircraftsService.status$.pipe(
 			takeUntilDestroyed()
 		).subscribe(status => loadingService.setLoadingStatus(status));
+
+		this.filterForm = this.formBuilder.group({
+			searchTerm: ["", []]
+		});
+
+		this.filterForm.controls.searchTerm.valueChanges
+			.pipe(takeUntilDestroyed())
+			.subscribe(searchTerm => {
+				this.tableData.filter = searchTerm ?? "";
+				this.showClearButton = this.tableData.filter.length > 0;
+			});
 	}
 
 	protected get status$(): Observable<Status> {
@@ -75,7 +90,9 @@ export class AircraftsComponent implements OnInit {
 	}
 
 	protected refresh(): void {
-		this.aircraftsService.loadAircrafts(true)
+		this.filterForm.reset();
+		this.showClearButton = false;
+		this.aircraftsService.loadAircrafts(true);
 	}
 
 	protected openAddAircraftDialog(): void {
