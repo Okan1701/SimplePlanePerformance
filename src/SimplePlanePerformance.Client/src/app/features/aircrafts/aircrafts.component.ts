@@ -63,7 +63,6 @@ export class AircraftsComponent implements OnInit {
 
 	protected get showNoDataFound$(): Observable<boolean> {
 		return this.aircraftsService.aircrafts$.pipe(
-			tap(aircraft => console.log(aircraft === null || aircraft?.length === 0)),
 			map(aircraft => aircraft === null || aircraft?.length === 0),
 		);
 	}
@@ -87,6 +86,13 @@ export class AircraftsComponent implements OnInit {
 			data: aircraft,
 			disableClose: true,
 			role: "alertdialog"
+		});
+	}
+
+	protected editAircraft(aircraft: Aircraft): void {
+		this.dialog.open(AddAircraftDialogComponent, {
+			data: aircraft,
+			disableClose: true,
 		});
 	}
 

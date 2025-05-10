@@ -1,80 +1,89 @@
-<h2 mat-dialog-title>Add Aircraft</h2>
+<h2 mat-dialog-title>{{ isEditMode ? "Edit Aircraft" : "Add Aircraft" }}</h2>
 <mat-dialog-content>
-  <form [formGroup]="form">
-    <div class="divider">Aircraft Identity</div>
-    <div class="form-group">
-      <mat-form-field class="flex-grow" subscriptSizing="fixed" appearance="outline">
-        <mat-label>Registration / Callsign</mat-label>
-        <input [formControl]="form.controls.registration" matInput placeholder="Ex. PH-XXX" required>
-        <mat-error>This field is required</mat-error>
-      </mat-form-field>
-      <div class="form-input-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Model</mat-label>
-          <input matInput [formControl]="form.controls.model" placeholder="Ex. P28A-161" required>
-          <mat-error>This field is required</mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Type</mat-label>
-          <mat-select [formControl]="form.controls.type" required>
-            <mat-option [value]="AircraftType.SingleEnginePiston">SEP</mat-option>
-            <mat-option [value]="AircraftType.MultiEnginePiston">MEP</mat-option>
-            <mat-option [value]="AircraftType.SingleEngineTurbine">SET</mat-option>
-            <mat-option [value]="AircraftType.SingleEngineTurbine">MET</mat-option>
-            <mat-option [value]="AircraftType.None">Other</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Fuel</mat-label>
-          <mat-select [formControl]="form.controls.fuelType" required>
-            <mat-option [value]="FuelType.Avgas100">AVGAS 100LL</mat-option>
-            <mat-option [value]="FuelType.JetA1">JET A1</mat-option>
-            <mat-option [value]="FuelType.None">Other</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
+	<form [formGroup]="form">
+		<div class="divider">Aircraft Identity</div>
+		<div class="form-group">
+			<mat-form-field class="flex-grow" subscriptSizing="fixed" appearance="outline">
+				<mat-label>Registration / Callsign</mat-label>
+				<input [formControl]="form.controls.registration" matInput placeholder="Ex. PH-XXX" required>
+				<mat-error>This field is required</mat-error>
+			</mat-form-field>
+			<div class="form-input-row">
+				<mat-form-field appearance="outline">
+					<mat-label>Model</mat-label>
+					<input matInput [formControl]="form.controls.model" placeholder="Ex. P28A-161" required>
+					<mat-error>This field is required</mat-error>
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Type</mat-label>
+					<mat-select [formControl]="form.controls.type" required>
+						<mat-option [value]="AircraftType.SingleEnginePiston">SEP</mat-option>
+						<mat-option [value]="AircraftType.MultiEnginePiston">MEP</mat-option>
+						<mat-option [value]="AircraftType.SingleEngineTurbine">SET</mat-option>
+						<mat-option [value]="AircraftType.SingleEngineTurbine">MET</mat-option>
+						<mat-option [value]="AircraftType.None">Other</mat-option>
+					</mat-select>
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Fuel</mat-label>
+					<mat-select [formControl]="form.controls.fuelType" required>
+						<mat-option [value]="FuelType.Avgas100">AVGAS 100LL</mat-option>
+						<mat-option [value]="FuelType.JetA1">JET A1</mat-option>
+						<mat-option [value]="FuelType.None">Other</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+		</div>
 
-    <div class="divider">Aircraft Limitations</div>
-    <div class="form-group">
-      <div class="form-input-row">
-        <mat-form-field class="flex-grow" appearance="outline">
-          <mat-label>Max Landing Crosswind Kts</mat-label>
-          <input [formControl]="form.controls.maxLandingCrossWind" type="number" [min]="0" matInput placeholder="Ex. 10">
-          <mat-error>Must be a positive number</mat-error>
-        </mat-form-field>
-        <mat-form-field class="flex-grow" appearance="outline">
-          <mat-label>Max Landing Tailwind Kts</mat-label>
-          <input [formControl]="form.controls.maxLandingTailWind" type="number" [min]="0" matInput placeholder="Ex. 10">
-          <mat-error>Must be a positive number</mat-error>
-        </mat-form-field>
-      </div>
-      <div class="form-input-row">
-        <mat-form-field class="flex-grow" appearance="outline">
-          <mat-label>Max Takeoff Crosswind Kts</mat-label>
-          <input [formControl]="form.controls.maxTakeoffCrossWind" type="number" [min]="0" matInput placeholder="Ex. 10">
-          <mat-error>Must be a positive number</mat-error>
-        </mat-form-field>
-        <mat-form-field class="flex-grow" appearance="outline">
-          <mat-label>Max Takeoff Tailwind Kts</mat-label>
-          <input [formControl]="form.controls.maxTakeoffTailWind" type="number" [min]="0" matInput placeholder="Ex. 10">
-          <mat-error>Must be a positive number</mat-error>
-        </mat-form-field>
-      </div>
-    </div>
-  </form>
+		<div class="divider">Aircraft Limitations</div>
+		<div class="form-group">
+			<div class="form-input-row">
+				<mat-form-field class="flex-grow" appearance="outline">
+					<mat-label>Max Landing Crosswind Kts</mat-label>
+					<input [formControl]="form.controls.maxLandingCrossWind" type="number" [min]="0" matInput
+						   placeholder="Ex. 10">
+					<mat-error>Must be a positive number</mat-error>
+				</mat-form-field>
+				<mat-form-field class="flex-grow" appearance="outline">
+					<mat-label>Max Landing Tailwind Kts</mat-label>
+					<input [formControl]="form.controls.maxLandingTailWind" type="number" [min]="0" matInput
+						   placeholder="Ex. 10">
+					<mat-error>Must be a positive number</mat-error>
+				</mat-form-field>
+			</div>
+			<div class="form-input-row">
+				<mat-form-field class="flex-grow" appearance="outline">
+					<mat-label>Max Takeoff Crosswind Kts</mat-label>
+					<input [formControl]="form.controls.maxTakeoffCrossWind" type="number" [min]="0" matInput
+						   placeholder="Ex. 10">
+					<mat-error>Must be a positive number</mat-error>
+				</mat-form-field>
+				<mat-form-field class="flex-grow" appearance="outline">
+					<mat-label>Max Takeoff Tailwind Kts</mat-label>
+					<input [formControl]="form.controls.maxTakeoffTailWind" type="number" [min]="0" matInput
+						   placeholder="Ex. 10">
+					<mat-error>Must be a positive number</mat-error>
+				</mat-form-field>
+			</div>
+		</div>
+	</form>
+	@if (isEditMode) {
+		<div>Created on: {{ aircraft?.createdDate | date }}</div>
+		<i>
+			Last modified on: {{ aircraft?.modifiedDate | date }}
+		</i>
+	}
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  @if (submitStatus === Status.Loading) {
-    <button mat-flat-button color="primary" disabled>
-      <div class="spinner-label">
-        <mat-spinner [diameter]="16"></mat-spinner>
-        <span>Adding</span>
-      </div>
-    </button>
-  }
-  @else {
-    <button mat-flat-button color="primary" (click)="submitForm()">Add</button>
-  }
+	<button mat-button mat-dialog-close>Cancel</button>
+	@if (submitStatus === Status.Loading) {
+		<button mat-flat-button color="primary" disabled>
+			<div class="spinner-label">
+				<mat-spinner [diameter]="16"></mat-spinner>
+				<span>Working...</span>
+			</div>
+		</button>
+	} @else {
+		<button mat-flat-button color="primary" (click)="submitForm()">{{ isEditMode ? "Update" : "Add" }}</button>
+	}
 </mat-dialog-actions>

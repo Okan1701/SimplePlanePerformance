@@ -70,7 +70,7 @@
 							<mat-icon>more_vert</mat-icon>
 						</button>
 						<mat-menu #actionsMenu>
-							<button mat-menu-item>
+							<button (click)="editAircraft(element)" mat-menu-item>
 								<mat-icon>edit</mat-icon>
 								<span>View/Edit</span>
 							</button>
