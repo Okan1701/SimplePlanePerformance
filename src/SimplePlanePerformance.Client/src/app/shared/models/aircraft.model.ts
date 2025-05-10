@@ -3,6 +3,8 @@ import { FuelType } from '../enums/fuel-type.enum';
 
 export type Aircraft = {
   id: number;
+  createdDate: Date;
+  modifiedDate: Date;
   registration: string;
   model: string;
   type: AircraftType;

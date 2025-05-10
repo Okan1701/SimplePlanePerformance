@@ -1,4 +1,4 @@
-import {BehaviorSubject, delay, Observable, tap} from 'rxjs';
+import {BehaviorSubject, delay, map, Observable, tap} from 'rxjs';
 import {Aircraft} from '../../shared/models/aircraft.model';
 import {environment} from "../../../environments/environment"
 import {Status} from '../../shared/enums/status.enum';
@@ -29,10 +29,14 @@ export class AircraftsService {
 		if (this.statusSubject.value === Status.Success && !force) return
 
 		this.statusSubject.next(Status.Loading);
-		this.httpClient.get<Aircraft[]>(endpoint).pipe(delay(force ? 500 : 0)).subscribe(aircraft => {
-			this.aircraftsSubject.next(aircraft);
-			this.statusSubject.next(Status.Success);
-		})
+		this.httpClient.get<Aircraft[]>(endpoint)
+			.pipe(
+				delay(force ? 500 : 0),
+				map((aircraft: Aircraft[]) => aircraft.map(this.mapAircraftDates)))
+			.subscribe(aircraft => {
+				this.aircraftsSubject.next(aircraft);
+				this.statusSubject.next(Status.Success);
+			})
 	}
 
 	public addAircraft(aircraft: CreateAircraft): Observable<Aircraft> {
@@ -53,5 +57,11 @@ export class AircraftsService {
 				this.loadAircrafts(true);
 			})
 		);
+	}
+
+	private mapAircraftDates(aircraft: Aircraft): Aircraft {
+		aircraft.createdDate = new Date(aircraft.createdDate);
+		aircraft.modifiedDate = new Date(aircraft.modifiedDate);
+		return aircraft;
 	}
 }

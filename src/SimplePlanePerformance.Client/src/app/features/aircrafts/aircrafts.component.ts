@@ -17,6 +17,8 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {DeleteAircraftDialogComponent} from './delete-aircraft-dialog/delete-aircraft-dialog.component';
+import {FormatAircraftTypePipe} from '../../shared/pipes/format-aircraft-type.pipe';
+import {FormatFuelTypePipe} from '../../shared/pipes/format-fuel-type.pipe';
 
 @Component({
 	selector: 'app-aircrafts',
@@ -30,7 +32,9 @@ import {DeleteAircraftDialogComponent} from './delete-aircraft-dialog/delete-air
 		MatTableModule,
 		StatusComponent,
 		MatTooltipModule,
-		MatMenuModule
+		MatMenuModule,
+		FormatAircraftTypePipe,
+		FormatFuelTypePipe
 	],
 	templateUrl: './aircrafts.component.html',
 	styleUrl: './aircrafts.component.scss'
@@ -40,6 +44,8 @@ export class AircraftsComponent implements OnInit {
 	protected readonly tableColumns = [
 		"registration",
 		"model",
+		"createdDate",
+		"modifiedDate",
 		"type",
 		"fuelType",
 		"actions"

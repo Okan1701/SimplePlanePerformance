@@ -46,6 +46,8 @@ public class AircraftService : IAircraftService
     {
         _logger.LogInformation("Creating new aircraft");
         var aircraft = newAircraft.ToAircraftEntity();
+        aircraft.CreatedDate = DateTime.Now;
+        aircraft.ModifiedDate = DateTime.Now;
         ValidateEntity(aircraft);
         _context.Aircrafts.Add(aircraft);
         await _context.SaveChangesAsync(cancellationToken);
