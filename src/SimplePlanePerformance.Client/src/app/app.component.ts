@@ -28,8 +28,8 @@ export class AppComponent {
 	constructor(private loadingService: LoadingService) {
 		interval(1000).pipe(takeUntilDestroyed(), startWith(0)).subscribe(() => {
 			let localDate = new Date();
-			this.localTimeString = `${localDate.getHours()}:${localDate.getMinutes()}:${localDate.getSeconds()} LT`;
-			this.zuluTimeString = `${localDate.getUTCHours()}:${localDate.getUTCMinutes()}:${localDate.getUTCSeconds()} Z`;
+			this.localTimeString = `${String(localDate.getHours()).padStart(2, "0")}:${String(localDate.getMinutes()).padStart(2, "0")}:${String(localDate.getSeconds()).padStart(2, "0")} LT`;
+			this.zuluTimeString = `${String(localDate.getUTCHours()).padStart(2, "0")}:${String(localDate.getUTCMinutes()).padStart(2, "0")}:${String(localDate.getUTCSeconds()).padStart(2, "0")} Z`;
 		});
 	}
 }
