@@ -1,0 +1,19 @@
+<mat-toolbar color="primary" class="mat-toolbar">
+	<span>Simple Plane Performance</span>
+	<div class="overlay">
+		<div class="toolbar">
+			<div class="toolbar-button" routerLink="/calculate" routerLinkActive="toolbar-button-active">
+				<mat-icon>calculate</mat-icon>
+				<span>Performance</span>
+			</div>
+			<div class="toolbar-button" routerLink="/aircraft" routerLinkActive="toolbar-button-active">
+				<mat-icon>flight</mat-icon>
+				<span>Aircraft</span>
+			</div>
+		</div>
+	</div>
+	<div class="time">
+		<span>{{ zuluTimeString }}</span>
+		<span>{{ localTimeString }}</span>
+	</div>
+</mat-toolbar>

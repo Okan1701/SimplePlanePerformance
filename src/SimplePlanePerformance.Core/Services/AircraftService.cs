@@ -64,6 +64,9 @@ public class AircraftService : IAircraftService
         }
 
         var updatedEntity = aircraft.ToAircraftEntity();
+        updatedEntity.Id = entity.Id;
+        updatedEntity.ModifiedDate = DateTime.Now;
+        updatedEntity.CreatedDate = entity.CreatedDate;
         ValidateEntity(updatedEntity);
         _context.Aircrafts.Update(updatedEntity);
         await _context.SaveChangesAsync(cancellationToken);

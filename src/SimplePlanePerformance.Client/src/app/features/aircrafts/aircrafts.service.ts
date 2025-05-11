@@ -50,6 +50,17 @@ export class AircraftsService {
 		);
 	}
 
+	public updateAircraft(id: number, aircraft: CreateAircraft): Observable<Aircraft> {
+		return this.httpClient.put<Aircraft>(`${endpoint}/${id}`, aircraft).pipe(
+			tap(aircraft => {
+				if (aircraft?.id) {
+					this.matSnackBar.open(`${aircraft.registration} has been updated`);
+					this.loadAircrafts(true);
+				}
+			})
+		);
+	}
+
 	public deleteAircraft(aircraft: Aircraft): Observable<void> {
 		return this.httpClient.delete<void>(`${endpoint}/${aircraft.id}`).pipe(
 			tap(() => {

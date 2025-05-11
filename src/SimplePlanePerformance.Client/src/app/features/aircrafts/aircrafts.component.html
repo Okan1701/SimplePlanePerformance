@@ -1,5 +1,3 @@
-<app-status [status]="status$ | async"></app-status>
-
 @if ((status$ | async) === Status.Success) {
 	<div class="page-content">
 		@if (showNoDataFound$ | async) {
@@ -15,9 +13,12 @@
 		} @else {
 			<div class="table-actions">
 				<mat-form-field class="search-input" appearance="outline" subscriptSizing="dynamic">
-					<mat-label>Search registration</mat-label>
-					<input matInput>
-					<mat-icon matSuffix>search</mat-icon>
+					<mat-label>Search term</mat-label>
+					<input matInput [formControl]="filterForm.controls.searchTerm">
+					<mat-icon matPrefix>search</mat-icon>
+					@if (showClearButton) {
+						<button mat-icon-button class="warn" (click)="filterForm.reset()" matSuffix><mat-icon>delete</mat-icon></button>
+					}
 				</mat-form-field>
 				<div class="button-group">
 					<button mat-icon-button matTooltip="Refresh page" (click)="refresh()">
@@ -34,7 +35,7 @@
 				<ng-container matColumnDef="registration">
 					<th mat-header-cell *matHeaderCellDef mat-sort-header> Registration / Callsign <span
 						matTooltip="{{ tableData.data.length }} aircraft"
-						class="small-badge">{{ tableData.data.length }}</span></th>
+						class="small-badge">{{ tableData.filteredData.length }}</span></th>
 					<td mat-cell *matCellDef="let element"> {{ element.registration }}</td>
 				</ng-container>
 
@@ -70,7 +71,7 @@
 							<mat-icon>more_vert</mat-icon>
 						</button>
 						<mat-menu #actionsMenu>
-							<button mat-menu-item>
+							<button (click)="editAircraft(element)" mat-menu-item>
 								<mat-icon>edit</mat-icon>
 								<span>View/Edit</span>
 							</button>
