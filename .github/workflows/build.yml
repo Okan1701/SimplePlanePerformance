@@ -73,11 +73,11 @@ jobs:
         working-directory: E:\Apps\SimplePlanePerformance.Client\
         
       - name: Copy API files
-        run: cp -R .\SimplePlanePerformance.WebAPI\* E:\Apps\SimplePlanePerformance.WebAPI\*
+        run: cp -R .\SimplePlanePerformance.WebAPI\ E:\Apps\SimplePlanePerformance.WebAPI\
         working-directory: ${{ github.workspace }}
         
       - name: Copy Client files
-        run: cp -R .\SimplePlanePerformance.Client\browser\* E:\Apps\SimplePlanePerformance.Client\*
+        run: cp -R .\SimplePlanePerformance.Client\browser\ E:\Apps\SimplePlanePerformance.Client\
         working-directory: ${{ github.workspace }}
         
       - name: Start API app pool
