@@ -13,8 +13,18 @@ mat-card-subtitle {
 .card-input-row {
 	display: flex;
 	gap: 10px;
+	margin-bottom: 20px;
+}
+
+.card-input-row-spaced {
+	display: flex;
+	justify-content:  space-between;
 }
 
 .card-input-row > * {
 	flex: 1;
+}
+
+.divider-spacing {
+	margin-bottom: 20px;
 }

@@ -47,3 +47,16 @@ html {
 	border-radius: 10px;
 	background-color: var(--mat-sys-secondary-container);
 }
+
+.divider {
+	display: flex;
+	align-items: center;
+}
+
+.divider::before, .divider::after {
+	flex: 1;
+	content: '';
+	padding: 1px;
+	background-color: #3f3f3f;
+	margin: 5px;
+}
