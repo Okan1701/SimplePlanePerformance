@@ -22,7 +22,7 @@ public class AircraftService : IAircraftService
     public async Task<ICollection<AircraftDto>> GetAllAircraftsAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Retrieving all aircraft");
-        var aircraft = await _context.Aircrafts
+        var aircraft = await _context.Aircraft
             .ToArrayAsync(cancellationToken);
 
         return aircraft.Select(AircraftDto.FromAircraft).ToArray();
@@ -32,7 +32,7 @@ public class AircraftService : IAircraftService
     {
         _logger.LogInformation("Retrieving aircraft by ID {Id}", id);
         
-        var entity = await _context.Aircrafts.FindAsync(id, cancellationToken);
+        var entity = await _context.Aircraft.FindAsync(id, cancellationToken);
 
         if (entity == null)
         {
@@ -49,7 +49,7 @@ public class AircraftService : IAircraftService
         aircraft.CreatedDate = DateTime.Now;
         aircraft.ModifiedDate = DateTime.Now;
         ValidateEntity(aircraft);
-        _context.Aircrafts.Add(aircraft);
+        _context.Aircraft.Add(aircraft);
         await _context.SaveChangesAsync(cancellationToken);
         return AircraftDto.FromAircraft(aircraft);
     }
@@ -57,7 +57,7 @@ public class AircraftService : IAircraftService
     public async Task<AircraftDto> UpdateAircraftAsync(int id, CreateAircraftDto aircraft, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Updating aircraft by ID {Id}", id);
-        var entity = await _context.Aircrafts.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        var entity = await _context.Aircraft.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         if (entity == null)
         {
             throw new EntityNotFoundException();
@@ -68,7 +68,7 @@ public class AircraftService : IAircraftService
         updatedEntity.ModifiedDate = DateTime.Now;
         updatedEntity.CreatedDate = entity.CreatedDate;
         ValidateEntity(updatedEntity);
-        _context.Aircrafts.Update(updatedEntity);
+        _context.Aircraft.Update(updatedEntity);
         await _context.SaveChangesAsync(cancellationToken);
         return AircraftDto.FromAircraft(updatedEntity);
     }
@@ -76,14 +76,14 @@ public class AircraftService : IAircraftService
     public async Task DeleteAircraftAsync(int id, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Deleting aircraft by ID {Id}", id);
-        var entity = await _context.Aircrafts.FindAsync(id, cancellationToken);
+        var entity = await _context.Aircraft.FindAsync(id, cancellationToken);
 
         if (entity == null)
         {
             throw new EntityNotFoundException();
         }
         
-        _context.Aircrafts.Remove(entity);
+        _context.Aircraft.Remove(entity);
         await _context.SaveChangesAsync(cancellationToken);
     }
 

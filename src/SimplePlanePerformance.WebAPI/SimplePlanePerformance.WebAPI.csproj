@@ -25,6 +25,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\SimplePlanePerformance.Core\SimplePlanePerformance.Core.csproj" />
+      <ProjectReference Include="..\SimplePlanePerformance.Infrastructure\SimplePlanePerformance.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

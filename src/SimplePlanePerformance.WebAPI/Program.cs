@@ -4,6 +4,7 @@ using Scalar.AspNetCore;
 using SimplePlanePerformance.Core.Data;
 using SimplePlanePerformance.Core.Services;
 using SimplePlanePerformance.Core.Services.Interfaces;
+using SimplePlanePerformance.Infrastructure.Extensions;
 using SimplePlanePerformance.WebAPI.ExceptionHandlers;
 
 namespace SimplePlanePerformance.WebAPI;
@@ -15,10 +16,12 @@ public static class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+        builder.Services.AddHttpClient();
         builder.Services.AddControllers();
         builder.Services.AddAuthorization();
         builder.Services.AddDbContext<SppDataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MssqlConnection")));
         builder.Services.AddScoped<IAircraftService, AircraftService>();
+        builder.Services.AddCheckWxAdapter(builder.Configuration);
 
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
