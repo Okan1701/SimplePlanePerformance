@@ -67,11 +67,11 @@ jobs:
         continue-on-error: true
         
       - name: Delete old API files
-        run: Remove-Item * -Exclude appsettings.Production.json
+        run: Remove-Item * -Exclude appsettings.Production.json -Recurse
         working-directory: E:\Apps\SimplePlanePerformance.WebAPI\
 
       - name: Delete old Client files
-        run: Remove-Item *
+        run: Remove-Item * -Recurse
         working-directory: E:\Apps\SimplePlanePerformance.Client\
         
       - name: Copy API files
