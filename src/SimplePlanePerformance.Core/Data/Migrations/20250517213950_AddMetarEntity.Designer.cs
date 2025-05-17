@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SimplePlanePerformance.Core.Data;
 
@@ -11,9 +12,11 @@ using SimplePlanePerformance.Core.Data;
 namespace SimplePlanePerformance.Core.Data.Migrations
 {
     [DbContext(typeof(SppDataContext))]
-    partial class SppDataContextModelSnapshot : ModelSnapshot
+    [Migration("20250517213950_AddMetarEntity")]
+    partial class AddMetarEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

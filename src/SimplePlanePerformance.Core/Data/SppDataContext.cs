@@ -12,4 +12,9 @@ public class SppDataContext : DbContext
     public SppDataContext(DbContextOptions options) : base(options)
     {
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Metar>().ToTable("Metar");
+    }
 }
