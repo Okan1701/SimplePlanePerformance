@@ -1,0 +1,16 @@
+.empty-page-flex {
+	margin-top: 50px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-items: center;
+}
+
+.big-icon {
+	transform: scale(1.5);
+}
+
+.paragraph {
+	max-width: 300px;
+	text-align: center;
+}

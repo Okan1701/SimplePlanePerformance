@@ -37,7 +37,7 @@ jobs:
         working-directory: src/SimplePlanePerformance.Client
         
       - name: Copy Client to publish
-        run: cp -R ./src/SimplePlanePerformance.Client/dist/ ./publish/
+        run: cp -R ./src/SimplePlanePerformance.Client/dist/simple-plane-performance.client ./publish/SimplePlanePerformance.Client
         
       - name: Upload artifacts
         uses: actions/upload-artifact@v4.3.2
@@ -48,3 +48,42 @@ jobs:
           if-no-files-found: error
       
     
+  deploy:
+    runs-on: planeperformance.emeni.local
+    needs: [ build ]
+    
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4.1.6
+        with:
+          name: simpleplaneperformance-win-x64
+          
+      - name: Stop API app pool
+        run: Stop-WebAppPool -Name "SimplePlanePerformance.WebAPI"
+        continue-on-error: true
+
+      - name: Stop Client app pool
+        run: Stop-WebAppPool -Name "SimplePlanePerformance.Client"
+        continue-on-error: true
+        
+      - name: Delete old API files
+        run: Remove-Item * -Exclude appsettings.Production.json -Recurse
+        working-directory: E:\Apps\SimplePlanePerformance.WebAPI\
+
+      - name: Delete old Client files
+        run: Remove-Item * -Recurse
+        working-directory: E:\Apps\SimplePlanePerformance.Client\
+        
+      - name: Copy API files
+        run: cp -R .\SimplePlanePerformance.WebAPI\* E:\Apps\SimplePlanePerformance.WebAPI\
+        working-directory: ${{ github.workspace }}
+        
+      - name: Copy Client files
+        run: cp -R .\SimplePlanePerformance.Client\browser\* E:\Apps\SimplePlanePerformance.Client\
+        working-directory: ${{ github.workspace }}
+        
+      - name: Start API app pool
+        run: Start-WebAppPool -Name "SimplePlanePerformance.WebAPI"
+
+      - name: Start Client app pool
+        run: Start-WebAppPool -Name "SimplePlanePerformance.Client"

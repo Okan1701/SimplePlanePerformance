@@ -1,0 +1,104 @@
+<div class="page-content">
+	<mat-card>
+		<mat-card-header>
+			<mat-card-subtitle>Flight details</mat-card-subtitle>
+		</mat-card-header>
+		<mat-card-content>
+			<div class="card-input-row">
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Departure</mat-label>
+					<mat-icon matPrefix>flight_takeoff</mat-icon>
+					<input matInput placeholder="ZZZZ" required />
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Destination</mat-label>
+					<mat-icon matPrefix>flight_land</mat-icon>
+					<input matInput placeholder="ZZZZ" required />
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Alternate</mat-label>
+					<mat-icon matPrefix>alt_route</mat-icon>
+					<input matInput placeholder="ZZZZ" />
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Date of Flight</mat-label>
+					<input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY">
+					<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+				</mat-form-field>
+			</div>
+		</mat-card-content>
+	</mat-card>
+	<mat-card>
+		<mat-card-header>
+			<mat-card-subtitle>Aircraft details</mat-card-subtitle>
+		</mat-card-header>
+		<mat-card-content>
+			<div class="card-input-row">
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Aircraft</mat-label>
+					<mat-select>
+						<mat-option>test</mat-option>
+					</mat-select>
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Registration</mat-label>
+					<input matInput placeholder="PH-ABC" />
+				</mat-form-field>
+			</div>
+		</mat-card-content>
+	</mat-card>
+	<mat-card>
+		<mat-card-header>
+			<mat-card-subtitle>Runway physical properties</mat-card-subtitle>
+		</mat-card-header>
+		<mat-card-content>
+			<div class="divider divider-spacing">Departure Airport</div>
+			<div class="card-input-row">
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Runway TORA</mat-label>
+					<input matInput type="number" placeholder="meters" />
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Runway TODA</mat-label>
+					<input matInput type="number" placeholder="meters" />
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Runway LDA</mat-label>
+					<input matInput type="number" placeholder="meters" />
+				</mat-form-field>
+			</div>
+			<div class="card-input-row-spaced">
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Wind direction</mat-label>
+					<mat-hint>Format: HDG / KT</mat-hint>
+					<input matInput placeholder="000 / 00" />
+				</mat-form-field>
+				<button mat-button>Fetch Wind</button>
+			</div>
+			<div class="divider divider-spacing">Destination Airport</div>
+			<div class="card-input-row">
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Runway TORA</mat-label>
+					<input matInput type="number" placeholder="meters" />
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Runway TODA</mat-label>
+					<input matInput type="number" placeholder="meters" />
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Runway LDA</mat-label>
+					<input matInput type="number" placeholder="meters" />
+				</mat-form-field>
+			</div>
+			<div class="card-input-row-spaced">
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Wind direction</mat-label>
+					<mat-hint>Format: HDG / KT</mat-hint>
+					<input matInput placeholder="000 / 00" />
+				</mat-form-field>
+				<button mat-button>Fetch Wind</button>
+			</div>
+		</mat-card-content>
+	</mat-card>
+</div>

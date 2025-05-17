@@ -1,0 +1,17 @@
+.newflight-page {
+	display: flex;
+	justify-content: space-between;
+}
+
+.max-flex {
+	flex: 1;
+	max-width: 50%;
+}
+
+.header-divider {
+	border-left: 1px solid #5e6367;
+	border-right: 1px solid #333638;
+	flex-basis: auto;
+	margin-left: 20px;
+	margin-right: 20px;
+}
