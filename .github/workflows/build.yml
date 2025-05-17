@@ -60,9 +60,11 @@ jobs:
           
       - name: Stop API app pool
         run: Stop-WebAppPool -Name "SimplePlanePerformance.WebAPI"
+        continue-on-error: true
 
       - name: Stop Client app pool
         run: Stop-WebAppPool -Name "SimplePlanePerformance.Client"
+        continue-on-error: true
         
       - name: Delete old API files
         run: Remove-Item * -Exclude appsettings.Production.json
