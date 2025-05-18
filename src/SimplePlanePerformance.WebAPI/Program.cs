@@ -21,6 +21,7 @@ public static class Program
         builder.Services.AddAuthorization();
         builder.Services.AddDbContext<SppDataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MssqlConnection")));
         builder.Services.AddScoped<IAircraftService, AircraftService>();
+        builder.Services.AddScoped<IMetarService, MetarService>();
         builder.Services.AddCheckWxAdapter(builder.Configuration);
 
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
