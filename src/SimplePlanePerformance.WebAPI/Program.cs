@@ -14,6 +14,17 @@ public static class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        
+        if (OperatingSystem.IsWindows())
+        {
+#pragma warning disable CA1416
+            builder.Logging.AddEventLog(options =>
+            {
+                options.LogName = "SimplePlanePerformance";
+                options.SourceName = "SimplePlanePerformance.WebAPI";
+            });
+#pragma warning restore CA1416
+        }
 
         // Add services to the container.
         builder.Services.AddHttpClient();
