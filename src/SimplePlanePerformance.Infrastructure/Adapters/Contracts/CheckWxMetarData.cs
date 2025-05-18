@@ -18,6 +18,8 @@ public class CheckWxMetarData
     public Dewpoint? Dewpoint { get; set; }
     
     public Elevation? Elevation { get; set; }
+    
+    [JsonPropertyName("flight_category")]
     public string? FlightCategory { get; set; }
     
     public Humidity? Humidity { get; set; }
