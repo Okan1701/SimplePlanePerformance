@@ -1,5 +1,4 @@
 .empty-page-flex {
-	margin-top: 50px;
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
@@ -13,4 +12,11 @@
 .paragraph {
 	max-width: 300px;
 	text-align: center;
+}
+
+.content-centered {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100%;
 }
