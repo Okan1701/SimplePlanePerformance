@@ -93,5 +93,10 @@
 				</table>
 			</mat-card-content>
 		</mat-card>
+		<mat-paginator [length]="tableData.filteredData.length"
+					   [pageSize]="25"
+					   [pageSizeOptions]="[5, 10, 25, 100]"
+					   aria-label="Select page">
+		</mat-paginator>
 	}
 </div>

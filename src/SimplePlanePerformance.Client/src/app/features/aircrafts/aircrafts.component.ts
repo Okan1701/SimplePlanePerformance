@@ -21,6 +21,7 @@ import { FormatFuelTypePipe } from '../../shared/pipes/format-fuel-type.pipe';
 import { LoadingService } from '../../shared/services/loading.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
 	selector: 'app-aircrafts',
@@ -37,7 +38,8 @@ import { MatCardModule } from '@angular/material/card';
 		FormatAircraftTypePipe,
 		FormatFuelTypePipe,
 		ReactiveFormsModule,
-		MatCardModule
+		MatCardModule,
+		MatPaginatorModule
 	],
 	templateUrl: './aircrafts.component.html',
 	styleUrl: './aircrafts.component.scss'
@@ -58,6 +60,9 @@ export class AircraftsComponent implements OnInit, AfterViewInit {
 
 	@ViewChild(MatSort)
 	protected sort?: MatSort;
+
+	@ViewChild(MatPaginator, { static: true })
+	protected paginator?: MatPaginator;
 
 	constructor(private aircraftsService: AircraftsService, private dialog: MatDialog, private formBuilder: FormBuilder, loadingService: LoadingService) {
 		this.aircraftsService.aircrafts$.pipe(
@@ -83,6 +88,10 @@ export class AircraftsComponent implements OnInit, AfterViewInit {
 	public ngAfterViewInit() {
 		if (this.sort) {
 			this.tableData.sort = this.sort;
+		}
+
+		if (this.paginator) {
+			this.tableData.paginator = this.paginator;
 		}
 	}
 
