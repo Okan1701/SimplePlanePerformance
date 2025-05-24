@@ -1,0 +1,27 @@
+<mat-card>
+	<mat-card-header>
+		<mat-card-subtitle>Flight details</mat-card-subtitle>
+	</mat-card-header>
+	<mat-card-content>
+		<div class="card-input-row">
+			<mat-form-field appearance="outline" subscriptSizing="dynamic">
+				<mat-label>Departure</mat-label>
+				<input matInput placeholder="ZZZZ" required />
+			</mat-form-field>
+			<mat-form-field appearance="outline" subscriptSizing="dynamic">
+				<mat-label>Destination</mat-label>
+				<input matInput placeholder="ZZZZ" required />
+			</mat-form-field>
+			<mat-form-field appearance="outline" subscriptSizing="dynamic">
+				<mat-label>Alternate</mat-label>
+				<input matInput placeholder="ZZZZ" />
+			</mat-form-field>
+			<mat-form-field appearance="outline" subscriptSizing="dynamic">
+				<mat-label>Date of Flight</mat-label>
+				<input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY">
+				<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+				<mat-datepicker #picker></mat-datepicker>
+			</mat-form-field>
+		</div>
+	</mat-card-content>
+</mat-card>

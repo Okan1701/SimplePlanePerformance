@@ -51,6 +51,8 @@ html {
 .divider {
 	display: flex;
 	align-items: center;
+	font-family: "B612", serif;
+	font-size: 12px;
 }
 
 .divider::before, .divider::after {

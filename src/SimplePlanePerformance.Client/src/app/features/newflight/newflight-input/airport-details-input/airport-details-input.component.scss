@@ -1,0 +1,30 @@
+@use '@angular/material' as mat;
+
+mat-form-field {
+	@include mat.form-field-density(-5);
+}
+
+mat-card-subtitle {
+	@include mat.card-overrides((
+		subtitle-text-line-height: 2
+	))
+}
+
+.card-input-row {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+.card-input-row-spaced {
+	display: flex;
+	justify-content:  space-between;
+}
+
+.card-input-row > * {
+	flex: 1;
+}
+
+.divider-spacing {
+	margin-bottom: 20px;
+}
