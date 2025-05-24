@@ -5,7 +5,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {CommonModule} from '@angular/common';
-import {AircraftsService} from '../aircrafts.service';
+import {AircraftsService} from '../../../shared/services/aircrafts.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Status} from '../../../shared/enums/status.enum';
 

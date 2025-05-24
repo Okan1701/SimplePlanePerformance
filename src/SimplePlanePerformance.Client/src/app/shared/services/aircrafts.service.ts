@@ -1,9 +1,9 @@
 import {BehaviorSubject, delay, map, Observable, tap} from 'rxjs';
-import {Aircraft} from '../../shared/models/aircraft.model';
+import {Aircraft} from '../models/aircraft.model';
 import {environment} from "../../../environments/environment"
-import {Status} from '../../shared/enums/status.enum';
+import {Status} from '../enums/status.enum';
 import {Injectable} from '@angular/core';
-import {CreateAircraft} from '../../shared/models/create-aircraft.model';
+import {CreateAircraft} from '../models/create-aircraft.model';
 import {HttpClient} from '@angular/common/http';
 import {MatSnackBar} from '@angular/material/snack-bar';
 

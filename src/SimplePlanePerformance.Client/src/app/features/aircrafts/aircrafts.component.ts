@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { AircraftsService } from './aircrafts.service';
+import { AircraftsService } from '../../shared/services/aircrafts.service';
 import { map, Observable } from 'rxjs';
 import { Status } from '../../shared/enums/status.enum';
 import { Aircraft } from '../../shared/models/aircraft.model';
@@ -20,6 +20,7 @@ import { FormatAircraftTypePipe } from '../../shared/pipes/format-aircraft-type.
 import { FormatFuelTypePipe } from '../../shared/pipes/format-fuel-type.pipe';
 import { LoadingService } from '../../shared/services/loading.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
 	selector: 'app-aircrafts',
@@ -35,7 +36,8 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 		MatMenuModule,
 		FormatAircraftTypePipe,
 		FormatFuelTypePipe,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		MatCardModule
 	],
 	templateUrl: './aircrafts.component.html',
 	styleUrl: './aircrafts.component.scss'

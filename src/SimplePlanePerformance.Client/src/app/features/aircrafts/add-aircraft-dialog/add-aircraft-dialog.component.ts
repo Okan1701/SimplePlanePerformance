@@ -9,7 +9,7 @@ import { AircraftType } from '../../../shared/enums/aircraft-type.enum';
 import { FuelType } from '../../../shared/enums/fuel-type.enum';
 import { Status } from '../../../shared/enums/status.enum';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AircraftsService } from '../aircrafts.service';
+import { AircraftsService } from '../../../shared/services/aircrafts.service';
 import { CreateAircraft } from '../../../shared/models/create-aircraft.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
