@@ -1,0 +1,9 @@
+<div class="card-subtitle">
+	<span><ng-content></ng-content></span>
+	@if (isSuccess) {
+		<mat-icon class="title-icon success" matTooltip="Values are valid">done_all</mat-icon>
+	}
+	@else {
+		<mat-icon class="title-icon danger" matTooltip="Values are invalid">close</mat-icon>
+	}
+</div>

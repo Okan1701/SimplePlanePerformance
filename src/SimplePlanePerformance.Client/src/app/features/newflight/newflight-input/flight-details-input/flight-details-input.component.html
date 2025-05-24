@@ -1,27 +1,31 @@
 <mat-card>
 	<mat-card-header>
-		<mat-card-subtitle>Flight details</mat-card-subtitle>
+		<app-card-input-title [isSuccess]="(isValidForm$ | async) ?? false">Aircraft details</app-card-input-title>
 	</mat-card-header>
 	<mat-card-content>
-		<div class="card-input-row">
-			<mat-form-field appearance="outline" subscriptSizing="dynamic">
+		<form class="card-input-row" [formGroup]="form">
+			<mat-form-field appearance="outline" subscriptSizing="fixed">
 				<mat-label>Departure</mat-label>
-				<input matInput placeholder="ZZZZ" required />
+				<mat-error>Must be 4 characters</mat-error>
+				<input matInput placeholder="ZZZZ" [formControl]="this.form.controls.departureAirport"/>
 			</mat-form-field>
-			<mat-form-field appearance="outline" subscriptSizing="dynamic">
+			<mat-form-field appearance="outline" subscriptSizing="fixed">
 				<mat-label>Destination</mat-label>
-				<input matInput placeholder="ZZZZ" required />
+				<mat-error>Must be 4 characters</mat-error>
+				<input matInput placeholder="ZZZZ" required [formControl]="this.form.controls.arrivalAirport"/>
 			</mat-form-field>
-			<mat-form-field appearance="outline" subscriptSizing="dynamic">
+			<mat-form-field appearance="outline" subscriptSizing="fixed">
 				<mat-label>Alternate</mat-label>
-				<input matInput placeholder="ZZZZ" />
+				<mat-error>Must be 4 characters</mat-error>
+				<input matInput placeholder="ZZZZ" [formControl]="this.form.controls.alternateAirport" />
 			</mat-form-field>
-			<mat-form-field appearance="outline" subscriptSizing="dynamic">
+			<mat-form-field appearance="outline" subscriptSizing="fixed">
 				<mat-label>Date of Flight</mat-label>
-				<input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY">
+				<mat-error>Must be valid date</mat-error>
+				<input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" [formControl]="this.form.controls.dateOfFlight">
 				<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
 				<mat-datepicker #picker></mat-datepicker>
 			</mat-form-field>
-		</div>
+		</form>
 	</mat-card-content>
 </mat-card>
