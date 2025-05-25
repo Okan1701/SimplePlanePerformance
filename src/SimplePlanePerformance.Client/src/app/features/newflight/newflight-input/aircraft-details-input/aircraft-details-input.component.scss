@@ -34,6 +34,7 @@ mat-card-subtitle {
 .aircraft-info-flex-column {
 	display: flex;
 	flex-direction: column;
+	font-family: "B612", serif;
 }
 
 .selected-aircraft {
@@ -48,8 +49,10 @@ mat-card-subtitle {
 .aircraft-limits-flex {
 	display: flex;
 	flex-direction: column;
+	font-family: "B612", serif;
 }
 
 .amber {
 	color: $warn-color;
+	font-family: "B612", serif;
 }
