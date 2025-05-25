@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use '../../../../../styles.scss' as *;
 
 mat-form-field {
 	@include mat.form-field-density(-5);
@@ -23,4 +24,32 @@ mat-card-subtitle {
 
 .card-input-row > * {
 	flex: 1;
+}
+
+.aircraft-info-flex {
+	display: flex;
+	gap: 30px;
+}
+
+.aircraft-info-flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.selected-aircraft {
+	display: flex;
+	justify-content: space-between;
+}
+
+.selected-aircraft > div {
+	flex: 1;
+}
+
+.aircraft-limits-flex {
+	display: flex;
+	flex-direction: column;
+}
+
+.amber {
+	color: $warn-color;
 }

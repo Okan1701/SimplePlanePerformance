@@ -1,12 +1,12 @@
 <mat-card>
 	<mat-card-header>
-		<app-card-input-title>Aircraft details</app-card-input-title>
+		<app-card-input-title [isSuccess]="form.valid" >Aircraft details</app-card-input-title>
 	</mat-card-header>
 	<mat-card-content>
-		<div class="card-input-row">
+		<form class="card-input-row" [formGroup]="form">
 			<mat-form-field appearance="outline" subscriptSizing="dynamic">
 				<mat-label>Aircraft</mat-label>
-				<mat-select [disabled]="isLoading$ | async">
+				<mat-select [disabled]="(isLoading$ | async) ?? false" [formControl]="form.controls.aircraftId">
 					@for (aircraft of (aircraft$ | async); track $index) {
 						<mat-option [value]="aircraft.id">{{ aircraft.registration }}</mat-option>
 					}
@@ -14,9 +14,53 @@
 			</mat-form-field>
 			<mat-form-field appearance="outline" subscriptSizing="dynamic">
 				<mat-label>Registration</mat-label>
-				<input matInput placeholder="PH-ABC" [disabled]="isLoading$ | async" />
+				<input matInput placeholder="PH-ABC" [disabled]="(isLoading$ | async) ?? false" [formControl]="form.controls.registration" />
+				<mat-icon matSuffix matTooltip="Use this field to override the aircraft registration">info</mat-icon>
 			</mat-form-field>
-		</div>
+		</form>
+		@if (selectedAircraft) {
+			<div class="selected-aircraft">
+				<div class="aircraft-info-flex">
+					<div class="aircraft-info-flex-column">
+						<strong>Model</strong>
+						<strong>Type</strong>
+						<strong>Fuel</strong>
+					</div>
+					<div class="aircraft-info-flex-column">
+						<span>{{ selectedAircraft.model }}</span>
+						<span>{{ selectedAircraft.type | formatAircraftType }}</span>
+						<span>{{ selectedAircraft.fuelType | formatFuelType }}</span>
+					</div>
+				</div>
+				<div class="aircraft-limits-flex">
+					<strong>Limits</strong>
+					@if (selectedAircraft.maxTakeoffCrossWind) {
+						<span>Max {{ selectedAircraft.maxTakeoffCrossWind }}kt takeoff crosswind</span>
+					}
+					@else {
+						<span class="amber">No max takeoff crosswind</span>
+					}
+					@if (selectedAircraft.maxTakeoffTailWind) {
+						<span>Max {{ selectedAircraft.maxTakeoffTailWind }}kt takeoff tailwind</span>
+					}
+					@else {
+						<span class="amber">No max takeoff tailwind</span>
+					}
+					@if (selectedAircraft.maxLandingCrossWind) {
+						<span>Max {{ selectedAircraft.maxTakeoffCrossWind }}kt landing crosswind</span>
+					}
+					@else {
+						<span class="amber">No max landing crosswind</span>
+					}
+					@if (selectedAircraft.maxLandingTailWind) {
+						<span>Max {{ selectedAircraft.maxLandingTailWind }}kt landing tailwind</span>
+					}
+					@else {
+						<span class="amber">No max landing tailwind</span>
+					}
+				</div>
+			</div>
+		}
 		@if (isLoading$ | async) {
 			<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 		}
