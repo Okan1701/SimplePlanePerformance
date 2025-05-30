@@ -10,6 +10,8 @@ import { CardInputTitleComponent } from '../card-input-title/card-input-title.co
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NewFlightService } from '../../newflight.service';
 
 @Component({
 	selector: 'app-flight-details-input',
@@ -25,20 +27,40 @@ export class FlightDetailsInputComponent {
 		dateOfFlight: FormControl<Date | null>
 	}>;
 
-	constructor(formBuilder: FormBuilder) {
+	constructor(formBuilder: FormBuilder, private newFlightService: NewFlightService) {
 		this.form = formBuilder.group({
 			departureAirport: new FormControl('', [Validators.required, Validators.minLength(4)]),
 			arrivalAirport: new FormControl('', [Validators.required, Validators.minLength(4)]),
 			alternateAirport: new FormControl('', [Validators.minLength(4)]),
 			dateOfFlight: new FormControl<Date>(new Date(), [Validators.required]),
-		})
+		});
+
+		this.form.controls.departureAirport.valueChanges
+			.pipe(takeUntilDestroyed())
+			.subscribe(x => {
+				if (this.form.controls.departureAirport.valid) {
+					this.newFlightService.departureIcao = x ?? '';
+				} else {
+					this.newFlightService.destinationIcao = '';
+				}
+			});
+
+		this.form.controls.arrivalAirport.valueChanges
+			.pipe(takeUntilDestroyed())
+			.subscribe(x => {
+				if (this.form.controls.arrivalAirport.valid) {
+					this.newFlightService.destinationIcao = x ?? '';
+				} else {
+					this.newFlightService.destinationIcao = '';
+				}
+			});
 	}
 
 	protected get isValidForm$(): Observable<boolean> {
 		return this.form.valueChanges.pipe(
 			startWith(true),
 			map(() => this.form.valid)
-		)
+		);
 	}
 
 	protected swapDepartureDestination($event: MouseEvent): void {
@@ -48,6 +70,6 @@ export class FlightDetailsInputComponent {
 		this.form.patchValue({
 			departureAirport: destination,
 			arrivalAirport: departure
-		})
+		});
 	}
 }
