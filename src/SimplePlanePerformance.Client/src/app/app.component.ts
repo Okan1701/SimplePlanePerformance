@@ -15,17 +15,13 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 	protected readonly Status = Status;
 
 	protected get loadingStatus$(): Observable<Status> {
 		return this.loadingService.loadingStatus$;
 	}
 
-	constructor(private loadingService: LoadingService, private router: Router) {
-	}
-
-	public async ngOnInit() {
-		await this.router.navigate(["newflight"]);
+	constructor(private loadingService: LoadingService) {
 	}
 }
