@@ -8,10 +8,12 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { map, Observable, startWith } from 'rxjs';
 import { CardInputTitleComponent } from '../card-input-title/card-input-title.component';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
 	selector: 'app-flight-details-input',
-	imports: [CommonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatDatepickerModule, CardInputTitleComponent, ReactiveFormsModule],
+	imports: [CommonModule, MatButtonModule, MatTooltipModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatDatepickerModule, CardInputTitleComponent, ReactiveFormsModule],
 	templateUrl: './flight-details-input.component.html',
 	styleUrl: './flight-details-input.component.scss'
 })
@@ -37,5 +39,15 @@ export class FlightDetailsInputComponent {
 			startWith(true),
 			map(() => this.form.valid)
 		)
+	}
+
+	protected swapDepartureDestination($event: MouseEvent): void {
+		$event.stopImmediatePropagation();
+		let departure = this.form.controls.departureAirport.value ?? "";
+		let destination = this.form.controls.arrivalAirport.value ?? "";
+		this.form.patchValue({
+			departureAirport: destination,
+			arrivalAirport: departure
+		})
 	}
 }

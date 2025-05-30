@@ -8,6 +8,7 @@
 				<mat-label>Departure</mat-label>
 				<mat-error>Must be 4 characters</mat-error>
 				<input matInput placeholder="ZZZZ" [formControl]="this.form.controls.departureAirport"/>
+				<button mat-icon-button matSuffix matTooltip="Swap departure and destination" (click)="swapDepartureDestination($event)"><mat-icon>sync_alt</mat-icon></button>
 			</mat-form-field>
 			<mat-form-field appearance="outline" subscriptSizing="fixed">
 				<mat-label>Destination</mat-label>
