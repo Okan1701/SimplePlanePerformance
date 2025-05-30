@@ -56,3 +56,16 @@ mat-card-subtitle {
 	color: $warn-color;
 	font-family: "B612", serif;
 }
+
+.divider-row {
+	margin-bottom: 10px;
+}
+
+.small-icon {
+	transform: scale(0.75);
+}
+
+.row-offset {
+	position: relative;
+	top: 10px;
+}

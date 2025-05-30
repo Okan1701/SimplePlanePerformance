@@ -29,13 +29,21 @@ export class AircraftDetailsInputComponent implements OnInit {
 	protected selectedAircraft?: Aircraft;
 	protected form: FormGroup<{
 		aircraftId: FormControl<number | null>,
-		registration: FormControl<string | null>
+		registration: FormControl<string | null>,
+		takeoffLiftoff: FormControl<number | null>,
+		takeoff50ftHeight: FormControl<number | null>,
+		landingGroundTouch: FormControl<number | null>,
+		landing50ftHeight: FormControl<number | null>,
 	}>;
 
 	constructor(formBuilder: FormBuilder, private aircraftService: AircraftsService) {
 		this.form = formBuilder.group({
 			aircraftId: new FormControl(0, [Validators.required]),
-			registration: new FormControl('', [Validators.required])
+			registration: new FormControl('', [Validators.required]),
+			takeoffLiftoff: new FormControl(0, [Validators.required, Validators.min(100)]),
+			takeoff50ftHeight: new FormControl(0, [Validators.required, Validators.min(100)]),
+			landingGroundTouch: new FormControl(0, [Validators.required, Validators.min(100)]),
+			landing50ftHeight: new FormControl(0, [Validators.required, Validators.min(100)])
 		});
 
 		this.form.controls.aircraftId.valueChanges

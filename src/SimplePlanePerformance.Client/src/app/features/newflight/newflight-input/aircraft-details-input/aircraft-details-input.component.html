@@ -3,23 +3,56 @@
 		<app-card-input-title [isSuccess]="form.valid" >Aircraft details</app-card-input-title>
 	</mat-card-header>
 	<mat-card-content>
-		<form class="card-input-row" [formGroup]="form">
-			<mat-form-field appearance="outline" subscriptSizing="dynamic">
-				<mat-label>Aircraft</mat-label>
-				<mat-select [formControl]="form.controls.aircraftId">
-					@for (aircraft of (aircraft$ | async); track $index) {
-						<mat-option [value]="aircraft.id">{{ aircraft.registration }}</mat-option>
-					}
-				</mat-select>
-				<button mat-icon-button matSuffix matTooltip="Refresh aircraft" (click)="onRefreshClick($event)" [disabled]="(isLoading$ | async) ?? false"><mat-icon>refresh</mat-icon></button>
-			</mat-form-field>
-			<mat-form-field appearance="outline" subscriptSizing="dynamic">
-				<mat-label>Registration</mat-label>
-				<input matInput placeholder="PH-ABC" [formControl]="form.controls.registration" />
-				<mat-icon matSuffix matTooltip="Use this field to override the aircraft registration">info</mat-icon>
-			</mat-form-field>
+		<form [formGroup]="form">
+			<div class="card-input-row">
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Aircraft</mat-label>
+					<mat-select [formControl]="form.controls.aircraftId">
+						@for (aircraft of (aircraft$ | async); track $index) {
+							<mat-option [value]="aircraft.id">{{ aircraft.registration }}</mat-option>
+						}
+					</mat-select>
+					<button mat-icon-button matSuffix matTooltip="Refresh aircraft" (click)="onRefreshClick($event)" [disabled]="(isLoading$ | async) ?? false"><mat-icon>refresh</mat-icon></button>
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<mat-label>Registration</mat-label>
+					<input matInput placeholder="PH-ABC" [formControl]="form.controls.registration" />
+					<mat-icon class="small-icon" matSuffix matTooltip="Use this field to override the aircraft registration">info</mat-icon>
+				</mat-form-field>
+			</div>
+			<div class="card-input-row divider-row">
+				<div class="divider">Takeoff Performance</div>
+				<div class="divider">Landing Performance</div>
+			</div>
+			<div class="card-input-row row-offset">
+				<mat-form-field appearance="outline" subscriptSizing="fixed">
+					<mat-label>Liftoff</mat-label>
+					<input min="0" type="number" matInput placeholder="0000" [formControl]="form.controls.takeoffLiftoff" oninput="this.value = Math.abs(this.value)" />
+					<mat-error>Must be 100 or more</mat-error>
+					<span matTextSuffix>m</span>
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="fixed">
+					<mat-label>To 50ft height</mat-label>
+					<input min="0" type="number" matInput placeholder="0000" [formControl]="form.controls.takeoff50ftHeight" oninput="this.value = Math.abs(this.value)"/>
+					<mat-error>Must be 100 or more</mat-error>
+					<span matTextSuffix>m</span>
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="fixed">
+					<mat-label>Ground touch</mat-label>
+					<input min="0" type="number" matInput placeholder="0000" [formControl]="form.controls.landingGroundTouch" oninput="this.value = Math.abs(this.value)"/>
+					<mat-error>Must be 100 or more</mat-error>
+					<span matTextSuffix>m</span>
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="fixed">
+					<mat-label>From 50ft</mat-label>
+					<input min="0" type="number" matInput placeholder="0000" [formControl]="form.controls.landing50ftHeight" oninput="this.value = Math.abs(this.value)"/>
+					<mat-error>Must be 100 or more</mat-error>
+					<span matTextSuffix>m</span>
+				</mat-form-field>
+			</div>
 		</form>
 		@if (selectedAircraft) {
+			<div class="divider-row"><div class="divider">Aircraft Details</div></div>
 			<div class="selected-aircraft">
 				<div class="aircraft-info-flex">
 					<div class="aircraft-info-flex-column">
@@ -62,8 +95,12 @@
 				</div>
 			</div>
 		}
-		@if (isLoading$ | async) {
-			<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-		}
 	</mat-card-content>
+	@if (isLoading$ | async) {
+		<mat-card-footer>
+			<mat-card-content>
+				<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+			</mat-card-content>
+		</mat-card-footer>
+	}
 </mat-card>
