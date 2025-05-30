@@ -7,7 +7,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AircraftsService } from '../../../../shared/services/aircrafts.service';
-import {combineLatestWith, filter, map, Observable, startWith} from 'rxjs';
+import { combineLatestWith, filter, map, Observable, startWith, tap } from 'rxjs';
 import { Status } from '../../../../shared/enums/status.enum';
 import { CommonModule } from '@angular/common';
 import { Aircraft } from '../../../../shared/models/aircraft.model';
@@ -17,10 +17,11 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {FormatAircraftTypePipe} from '../../../../shared/pipes/format-aircraft-type.pipe';
 import {FormatFuelTypePipe} from '../../../../shared/pipes/format-fuel-type.pipe';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
 	selector: 'app-aircraft-details-input',
-	imports: [CommonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatProgressBarModule, CardInputTitleComponent, ReactiveFormsModule, MatTooltipModule, FormatAircraftTypePipe, FormatFuelTypePipe],
+	imports: [CommonModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatProgressBarModule, CardInputTitleComponent, ReactiveFormsModule, MatTooltipModule, FormatAircraftTypePipe, FormatFuelTypePipe],
 	templateUrl: './aircraft-details-input.component.html',
 	styleUrl: './aircraft-details-input.component.scss'
 })
@@ -58,7 +59,8 @@ export class AircraftDetailsInputComponent implements OnInit {
 
 	protected get isLoading$(): Observable<boolean> {
 		return this.aircraftService.status$.pipe(
-			map(status => status !== Status.Success)
+			map(status => status !== Status.Success),
+			tap(isLoading => isLoading ? this.form.disable() : this.form.enable())
 		);
 	}
 
@@ -67,5 +69,10 @@ export class AircraftDetailsInputComponent implements OnInit {
 			startWith([]),
 			filter(aircraft => aircraft != null)
 		);
+	}
+
+	protected onRefreshClick(event: MouseEvent): void {
+		event.stopImmediatePropagation();
+		this.aircraftService.loadAircrafts(true);
 	}
 }

@@ -6,15 +6,16 @@
 		<form class="card-input-row" [formGroup]="form">
 			<mat-form-field appearance="outline" subscriptSizing="dynamic">
 				<mat-label>Aircraft</mat-label>
-				<mat-select [disabled]="(isLoading$ | async) ?? false" [formControl]="form.controls.aircraftId">
+				<mat-select [formControl]="form.controls.aircraftId">
 					@for (aircraft of (aircraft$ | async); track $index) {
 						<mat-option [value]="aircraft.id">{{ aircraft.registration }}</mat-option>
 					}
 				</mat-select>
+				<button mat-icon-button matSuffix (click)="onRefreshClick($event)" [disabled]="(isLoading$ | async) ?? false"><mat-icon>refresh</mat-icon></button>
 			</mat-form-field>
 			<mat-form-field appearance="outline" subscriptSizing="dynamic">
 				<mat-label>Registration</mat-label>
-				<input matInput placeholder="PH-ABC" [disabled]="(isLoading$ | async) ?? false" [formControl]="form.controls.registration" />
+				<input matInput placeholder="PH-ABC" [formControl]="form.controls.registration" />
 				<mat-icon matSuffix matTooltip="Use this field to override the aircraft registration">info</mat-icon>
 			</mat-form-field>
 		</form>
