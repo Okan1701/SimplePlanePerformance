@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Observable } from 'rxjs';
@@ -15,13 +15,17 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 	protected readonly Status = Status;
 
 	protected get loadingStatus$(): Observable<Status> {
 		return this.loadingService.loadingStatus$;
 	}
 
-	constructor(private loadingService: LoadingService) {
+	constructor(private loadingService: LoadingService, private router: Router) {
+	}
+
+	public async ngOnInit() {
+		await this.router.navigate(["newflight"]);
 	}
 }
