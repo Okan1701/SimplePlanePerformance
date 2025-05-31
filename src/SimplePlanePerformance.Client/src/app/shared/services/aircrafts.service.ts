@@ -1,11 +1,11 @@
-import {BehaviorSubject, delay, map, Observable, tap} from 'rxjs';
-import {Aircraft} from '../models/aircraft.model';
-import {environment} from "../../../environments/environment"
-import {Status} from '../enums/status.enum';
-import {Injectable} from '@angular/core';
-import {CreateAircraft} from '../models/create-aircraft.model';
-import {HttpClient} from '@angular/common/http';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { BehaviorSubject, catchError, delay, map, Observable, tap, throwError } from 'rxjs';
+import { Aircraft } from '../models/aircraft.model';
+import { environment } from "../../../environments/environment"
+import { Status } from '../enums/status.enum';
+import { Injectable } from '@angular/core';
+import { CreateAircraft } from '../models/create-aircraft.model';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const endpoint = `${environment.apiUrl}/v1/aircraft`
 
@@ -31,6 +31,10 @@ export class AircraftsService {
 		this.statusSubject.next(Status.Loading);
 		this.httpClient.get<Aircraft[]>(endpoint)
 			.pipe(
+				catchError((err: HttpErrorResponse) => {
+					this.statusSubject.next(Status.Error)
+					return throwError(() => err)
+				}),
 				delay(force ? 500 : 0),
 				map((aircraft: Aircraft[]) => aircraft.map(this.mapAircraftDates)))
 			.subscribe(aircraft => {

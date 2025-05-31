@@ -67,7 +67,14 @@ export class AircraftDetailsInputComponent implements OnInit {
 
 	protected get isLoading$(): Observable<boolean> {
 		return this.aircraftService.status$.pipe(
-			map(status => status !== Status.Success),
+			map(status => status !== Status.Success && status !== Status.Error),
+			tap(isLoading => isLoading ? this.form.disable() : this.form.enable())
+		);
+	}
+
+	protected get isLoadingFailed$(): Observable<boolean> {
+		return this.aircraftService.status$.pipe(
+			map(status => status === Status.Error),
 			tap(isLoading => isLoading ? this.form.disable() : this.form.enable())
 		);
 	}
