@@ -5,13 +5,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { map, Observable, startWith } from 'rxjs';
+import { filter, map, Observable, startWith } from 'rxjs';
 import { CardInputTitleComponent } from '../card-input-title/card-input-title.component';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NewFlightService } from '../../newflight.service';
+import { FlightDetails } from '../../flight-details.model';
 
 @Component({
 	selector: 'app-flight-details-input',
@@ -34,6 +35,18 @@ export class FlightDetailsInputComponent {
 			alternateAirport: new FormControl('', [Validators.minLength(4)]),
 			dateOfFlight: new FormControl<Date>(new Date(), [Validators.required]),
 		});
+
+		this.form.valueChanges.pipe(
+			takeUntilDestroyed(),
+			map(() => this.form.valid),
+			filter(x => x),
+			map(() => ({
+				departureIcao: this.form.value.departureAirport,
+				destinationIcaso: this.form.value.arrivalAirport,
+				alternateIcao: this.form.value.alternateAirport,
+				dateOfFlight: this.form.value.dateOfFlight
+			}) as FlightDetails)
+		).subscribe(x => newFlightService.flightDetails = x);
 
 		this.form.controls.departureAirport.valueChanges
 			.pipe(takeUntilDestroyed())

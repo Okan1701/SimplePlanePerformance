@@ -13,6 +13,7 @@ import { MetarService } from '../../../../shared/services/metar.service';
 import { NewFlightService } from '../../newflight.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Metar } from '../../../../shared/models/metar.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
 	selector: 'app-airport-details-input',
@@ -50,6 +51,39 @@ export class AirportDetailsInputComponent {
 			destinationAsda: new FormControl(0, [Validators.required, Validators.min(100)]),
 			destinationLda: new FormControl(0, [Validators.required, Validators.min(100)]),
 			destinationWind: new FormControl('', [Validators.required]),
+		});
+
+		this.form.valueChanges.pipe(
+			takeUntilDestroyed(),
+		).subscribe(formValue => {
+			if (this.form.valid) {
+				let departureWindComponents = formValue.departureWind?.split("/") ?? [];
+				if (departureWindComponents != null && departureWindComponents.length < 2) {
+					throw new Error("Invalid destination wind value despite form being valid!");
+				}
+
+				let destinationWindComponents = formValue.destinationWind?.split("/") ?? [];
+				if (destinationWindComponents != null && destinationWindComponents.length < 2) {
+					throw new Error("Invalid destination wind value despite form being valid!");
+				}
+
+				newFlightService.airportDetails = {
+					departureTora: formValue.departureTora as number,
+					departureToda: formValue.departureToda as number,
+					departureAsda: formValue.departureAsda as number,
+					departureLda: formValue.departureLda as number,
+					departureWindDirection: parseInt(departureWindComponents[0].trim() ?? "0"),
+					departureWindSpeed: parseInt(departureWindComponents[1].trim() ?? "0"),
+					destinationTora: formValue.destinationTora as number,
+					destinationToda: formValue.destinationToda as number,
+					destinationAsda: formValue.destinationAsda as number,
+					destinationLda: formValue.destinationLda as number,
+					destinationWindDirection: parseInt(destinationWindComponents[0].trim() ?? "0"),
+					destinationWindSpeed: parseInt(destinationWindComponents[1].trim() ?? "0"),
+				}
+			} else {
+				newFlightService.airportDetails = null;
+			}
 		});
 	}
 

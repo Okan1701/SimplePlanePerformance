@@ -27,25 +27,25 @@
 			<div class="card-input-row row-offset">
 				<mat-form-field appearance="outline" subscriptSizing="fixed">
 					<mat-label>Liftoff</mat-label>
-					<input min="0" type="number" matInput placeholder="0000" [formControl]="form.controls.takeoffLiftoff" oninput="this.value = Math.abs(this.value)" />
+					<input min="0" type="number" matInput placeholder="0000" [formControl]="form.controls.takeoffLiftoff" />
 					<mat-error>Must be 100 or more</mat-error>
 					<span matTextSuffix>m</span>
 				</mat-form-field>
 				<mat-form-field appearance="outline" subscriptSizing="fixed">
 					<mat-label>To 50ft height</mat-label>
-					<input min="0" type="number" matInput placeholder="0000" [formControl]="form.controls.takeoff50ftHeight" oninput="this.value = Math.abs(this.value)"/>
+					<input min="0" type="number" matInput placeholder="0000" [formControl]="form.controls.takeoff50ftHeight"/>
 					<mat-error>Must be 100 or more</mat-error>
 					<span matTextSuffix>m</span>
 				</mat-form-field>
 				<mat-form-field appearance="outline" subscriptSizing="fixed">
 					<mat-label>Ground touch</mat-label>
-					<input min="0" type="number" matInput placeholder="0000" [formControl]="form.controls.landingGroundTouch" oninput="this.value = Math.abs(this.value)"/>
+					<input min="0" type="number" matInput placeholder="0000" [formControl]="form.controls.landingGroundTouch"/>
 					<mat-error>Must be 100 or more</mat-error>
 					<span matTextSuffix>m</span>
 				</mat-form-field>
 				<mat-form-field appearance="outline" subscriptSizing="fixed">
 					<mat-label>From 50ft</mat-label>
-					<input min="0" type="number" matInput placeholder="0000" [formControl]="form.controls.landing50ftHeight" oninput="this.value = Math.abs(this.value)"/>
+					<input min="0" type="number" matInput placeholder="0000" [formControl]="form.controls.landing50ftHeight"/>
 					<mat-error>Must be 100 or more</mat-error>
 					<span matTextSuffix>m</span>
 				</mat-form-field>
