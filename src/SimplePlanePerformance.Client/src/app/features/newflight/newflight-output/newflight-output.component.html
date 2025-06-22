@@ -1,7 +1,21 @@
-<div class="content-centered">
-	<div class="empty-page-flex">
-		<mat-icon class="big-icon">sync</mat-icon>
-		<h1>No data available</h1>
-		<div class="paragraph">Performance calculations will automatically appear here when filling in the left side.</div>
+@let newFlightPerformance = newFlightPerformance$ | async;
+@if (newFlightPerformance != null) {
+	<div class="page-content">
+		<app-takeoff-performance
+			[takeoffPerformance]="newFlightPerformance.departureTakeOff">
+		</app-takeoff-performance>
+		<app-takeoff-performance
+			[takeoffPerformance]="newFlightPerformance.destinationTakeOff">
+		</app-takeoff-performance>
 	</div>
-</div>
+}
+@else {
+	<div class="content-centered">
+		<div class="empty-page-flex">
+			<mat-icon class="big-icon">sync</mat-icon>
+			<h1>No data available</h1>
+			<div class="paragraph">Performance calculations will automatically appear here when filling in the left side.</div>
+		</div>
+	</div>
+
+}

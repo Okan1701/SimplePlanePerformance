@@ -4,7 +4,6 @@ import { FlightDetails } from './flight-details.model';
 import { AircraftDetails } from './aircraft-details.model';
 import { NewFlight } from './newflight.model';
 import { AirportDetails } from './airport-details.model';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({providedIn: 'root'})
 export class NewFlightService {
@@ -13,10 +12,6 @@ export class NewFlightService {
 	private readonly flightDetailsSubject = new BehaviorSubject<FlightDetails | null>(null);
 	private readonly aircraftDetailsSubject = new BehaviorSubject<AircraftDetails | null>(null);
 	private readonly airportDetailsSubject = new BehaviorSubject<AirportDetails | null>(null);
-
-	constructor() {
-		this.newFlight$.pipe(takeUntilDestroyed()).subscribe(x => console.log(x));
-	}
 
 	public get newFlight$(): Observable<NewFlight> {
 		return combineLatest([this.flightDetails$, this.aircraftDetails$, this.airportDetails$]).pipe(
@@ -28,20 +23,12 @@ export class NewFlightService {
 		);
 	}
 
-	public get departureIcao$(): Observable<string> {
-		return this.departureIcaoSubject.asObservable();
-	}
-
 	public get departureIcao(): string {
 		return this.departureIcaoSubject.value;
 	}
 
 	public set departureIcao(value: string) {
 		this.departureIcaoSubject.next(value);
-	}
-
-	public get destinationIcao$(): Observable<string> {
-		return this.destinationIcaoSubject.asObservable();
 	}
 
 	public get destinationIcao(): string {

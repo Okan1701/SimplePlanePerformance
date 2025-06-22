@@ -1,0 +1,25 @@
+<mat-card>
+	<mat-card-header>
+		<mat-card-subtitle>{{ takeoffPerformance?.icao }} Takeoff Performance</mat-card-subtitle>
+	</mat-card-header>
+	<mat-card-content class="flex-columns">
+		<div class="flex-rows">
+			<span>Liftoff:</span>
+			<i>(+25% margin)</i>
+			<span>To 50ft Height:</span>
+			<i>(+25% margin)</i>
+			<br/>
+			<span>RWY TORA used:</span>
+			<span>RWY TODA used:</span>
+		</div>
+		<div class="flex-rows">
+			<span>{{ takeoffPerformance?.liftoffDistance | number  }}</span>
+			<i>{{ takeoffPerformance?.liftoffDistanceMargin | number  }}</i>
+			<span>{{ takeoffPerformance?.liftoffTo50ftDistance | number  }}</span>
+			<i>{{ takeoffPerformance?.liftoffTo50ftDistanceMargin | number  }}</i>
+			<br/>
+			<span>{{ takeoffPerformance?.runwayToraUsedPercentage | number }}%</span>
+			<span>{{ takeoffPerformance?.runwayTodaUsedPercentage | number  }}%</span>
+		</div>
+	</mat-card-content>
+</mat-card>
