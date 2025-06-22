@@ -10,7 +10,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { CardInputTitleComponent } from '../card-input-title/card-input-title.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MetarService } from '../../../../shared/services/metar.service';
-import { NewFlightService } from '../../newflight.service';
+import { NewFlightService } from '../../services/newflight.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Metar } from '../../../../shared/models/metar.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

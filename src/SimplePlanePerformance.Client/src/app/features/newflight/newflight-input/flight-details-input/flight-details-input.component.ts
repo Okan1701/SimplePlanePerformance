@@ -11,8 +11,8 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NewFlightService } from '../../newflight.service';
-import { FlightDetails } from '../../flight-details.model';
+import { NewFlightService } from '../../services/newflight.service';
+import { FlightDetails } from '../../models/flight-details.model';
 
 @Component({
 	selector: 'app-flight-details-input',

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { TakeoffPerformance } from '../../takeoff-performance.model';
+import { TakeoffPerformance } from '../../models/takeoff-performance.model';
 
 @Component({
   selector: 'app-takeoff-performance',

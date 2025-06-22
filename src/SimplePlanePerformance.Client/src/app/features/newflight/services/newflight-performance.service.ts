@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { NewFlight } from './newflight.model';
-import { NewFLightPerformance } from './newflight-performance.model';
-import { TakeoffPerformance } from './takeoff-performance.model';
-import { AircraftDetails } from './aircraft-details.model';
-import { AirportDetails } from './airport-details.model';
+import { NewFlight } from '../models/newflight.model';
+import { NewFLightPerformance } from '../models/newflight-performance.model';
+import { TakeoffPerformance } from '../models/takeoff-performance.model';
+import { AircraftDetails } from '../models/aircraft-details.model';
+import { AirportDetails } from '../models/airport-details.model';
 import { BehaviorSubject, filter, Observable, tap } from 'rxjs';
 import { NewFlightService } from './newflight.service';
 

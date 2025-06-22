@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NewFlightService } from '../newflight.service';
+import { NewFlightService } from '../services/newflight.service';
 import { map, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { TakeoffPerformanceComponent } from './takeoff-performance/takeoff-performance.component';
-import { NewFlightPerformanceService } from '../newflight-performance.service';
-import { NewFLightPerformance } from '../newflight-performance.model';
+import { NewFlightPerformanceService } from '../services/newflight-performance.service';
+import { NewFLightPerformance } from '../models/newflight-performance.model';
 
 @Component({
 	selector: 'app-newflight-output',

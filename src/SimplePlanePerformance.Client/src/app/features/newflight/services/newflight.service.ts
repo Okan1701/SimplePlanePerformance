@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
-import { FlightDetails } from './flight-details.model';
-import { AircraftDetails } from './aircraft-details.model';
-import { NewFlight } from './newflight.model';
-import { AirportDetails } from './airport-details.model';
+import { FlightDetails } from '../models/flight-details.model';
+import { AircraftDetails } from '../models/aircraft-details.model';
+import { NewFlight } from '../models/newflight.model';
+import { AirportDetails } from '../models/airport-details.model';
 
 @Injectable({providedIn: 'root'})
 export class NewFlightService {

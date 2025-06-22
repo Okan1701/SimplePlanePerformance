@@ -1,4 +1,10 @@
 @use '../../../../../styles.scss' as *;
+@use '@angular/material' as mat;
+
+.title {
+	display: flex;
+	gap: 5px;
+}
 
 .card-subtitle {
 	display: flex;
@@ -28,4 +34,13 @@
 
 .warn {
 	color: $warn-color;
+}
+
+.btn-small-density {
+	@include mat.icon-button-density(-5);
+}
+
+.button-group {
+	display: flex;
+	align-items: center;
 }

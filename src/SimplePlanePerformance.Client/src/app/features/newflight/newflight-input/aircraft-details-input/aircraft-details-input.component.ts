@@ -18,7 +18,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {FormatAircraftTypePipe} from '../../../../shared/pipes/format-aircraft-type.pipe';
 import {FormatFuelTypePipe} from '../../../../shared/pipes/format-fuel-type.pipe';
 import { MatButtonModule } from '@angular/material/button';
-import { NewFlightService } from '../../newflight.service';
+import { NewFlightService } from '../../services/newflight.service';
 
 @Component({
 	selector: 'app-aircraft-details-input',
