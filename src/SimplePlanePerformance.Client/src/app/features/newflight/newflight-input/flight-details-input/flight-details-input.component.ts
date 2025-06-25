@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NewFlightService } from '../../services/newflight.service';
 import { FlightDetails } from '../../models/flight-details.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'app-flight-details-input',
@@ -27,8 +28,9 @@ export class FlightDetailsInputComponent {
 		alternateAirport: FormControl<string | null>,
 		dateOfFlight: FormControl<Date | null>
 	}>;
+	private readonly formStorageKey = "flightDetailsForm";
 
-	constructor(formBuilder: FormBuilder, private newFlightService: NewFlightService) {
+	constructor(formBuilder: FormBuilder, private newFlightService: NewFlightService, private matSnackBar: MatSnackBar) {
 		this.form = formBuilder.group({
 			departureAirport: new FormControl('', [Validators.required, Validators.minLength(4)]),
 			arrivalAirport: new FormControl('', [Validators.required, Validators.minLength(4)]),
@@ -83,6 +85,42 @@ export class FlightDetailsInputComponent {
 		this.form.patchValue({
 			departureAirport: destination,
 			arrivalAirport: departure
+		});
+	}
+
+	protected saveForm(): void {
+		if (this.form.valid) {
+			window.localStorage.setItem(this.formStorageKey, JSON.stringify(this.form.value));
+			this.matSnackBar.open("Flight details saved.", undefined, {
+				duration: 3000,
+			});
+		}
+		else {
+			this.matSnackBar.open("Cannot save invalid form.", undefined, {
+				duration: 3000,
+			});
+		}
+	}
+
+	protected resetForm(): void {
+		this.form.reset();
+		this.matSnackBar.open("Flight details reset.", undefined, {
+			duration: 3000,
+		});
+	}
+
+	protected loadFormHistory(): void {
+		let rawData = window.localStorage.getItem(this.formStorageKey);
+		if (rawData == null) {
+			this.matSnackBar.open("No previous flight data found.", undefined, {
+				duration: 3000,
+			});
+			return;
+		}
+
+		this.form.patchValue(JSON.parse(rawData));
+		this.matSnackBar.open("Previous data loaded.", undefined, {
+			duration: 3000,
 		});
 	}
 }

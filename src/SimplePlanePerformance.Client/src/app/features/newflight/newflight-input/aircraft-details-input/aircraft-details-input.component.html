@@ -1,6 +1,11 @@
 <mat-card>
 	<mat-card-header>
-		<app-card-input-title [isSuccess]="form.valid" >Aircraft details</app-card-input-title>
+		<app-card-input-title
+			[isSuccess]="form.valid"
+			(historyClicked)="loadFormHistory()"
+			(resetClicked)="resetForm()"
+			(saveClicked)="saveForm()">Aircraft details
+		</app-card-input-title>
 	</mat-card-header>
 	<mat-card-content>
 		<form [formGroup]="form">

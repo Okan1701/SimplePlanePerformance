@@ -1,6 +1,11 @@
 <mat-card>
 	<mat-card-header>
-		<app-card-input-title [isSuccess]="(isValidForm$ | async) ?? false">Aircraft details</app-card-input-title>
+		<app-card-input-title
+			[isSuccess]="(isValidForm$ | async) ?? false"
+			(historyClicked)="loadFormHistory()"
+			(resetClicked)="resetForm()"
+			(saveClicked)="saveForm()">Aircraft details
+		</app-card-input-title>
 	</mat-card-header>
 	<mat-card-content>
 		<form class="card-input-row" [formGroup]="form">

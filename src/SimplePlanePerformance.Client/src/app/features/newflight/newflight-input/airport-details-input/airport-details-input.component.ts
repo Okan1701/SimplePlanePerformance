@@ -37,7 +37,8 @@ export class AirportDetailsInputComponent {
 		destinationAsda: FormControl<number | null>
 		destinationLda: FormControl<number | null>,
 		destinationWind: FormControl<string | null>
-	}>
+	}>;
+	private readonly formStorageKey = "airportDetailsForm";
 
 	constructor(formBuilder: FormBuilder, private matSnackBar: MatSnackBar, private metarService: MetarService, private newFlightService: NewFlightService) {
 		this.form = formBuilder.group({
@@ -144,6 +145,42 @@ export class AirportDetailsInputComponent {
 				});
 				this.isFetchingDestinationWind = false
 			}
+		});
+	}
+
+	protected saveForm(): void {
+		if (this.form.valid) {
+			window.localStorage.setItem(this.formStorageKey, JSON.stringify(this.form.value));
+			this.matSnackBar.open("Airport details saved.", undefined, {
+				duration: 3000,
+			});
+		}
+		else {
+			this.matSnackBar.open("Cannot save invalid form.", undefined, {
+				duration: 3000,
+			});
+		}
+	}
+
+	protected resetForm(): void {
+		this.form.reset();
+		this.matSnackBar.open("Airport details reset.", undefined, {
+			duration: 3000,
+		});
+	}
+
+	protected loadFormHistory(): void {
+		let rawData = window.localStorage.getItem(this.formStorageKey);
+		if (rawData == null) {
+			this.matSnackBar.open("No previous airport data found.", undefined, {
+				duration: 3000,
+			});
+			return;
+		}
+
+		this.form.patchValue(JSON.parse(rawData));
+		this.matSnackBar.open("Previous data loaded.", undefined, {
+			duration: 3000,
 		});
 	}
 }

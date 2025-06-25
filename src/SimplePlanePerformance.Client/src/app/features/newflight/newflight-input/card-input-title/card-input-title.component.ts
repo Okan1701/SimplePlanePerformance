@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
@@ -17,4 +17,23 @@ import {MatButtonModule} from '@angular/material/button';
 export class CardInputTitleComponent {
 	@Input()
 	public isSuccess = false;
+
+	@Output()
+	public resetClicked = new EventEmitter<void>();
+	@Output()
+	public saveClicked = new EventEmitter<void>();
+	@Output()
+	public historyClicked = new EventEmitter<void>();
+
+	protected reset(): void {
+		this.resetClicked.emit();
+	}
+
+	protected save(): void {
+		this.saveClicked.emit();
+	}
+
+	protected history(): void {
+		this.historyClicked.emit();
+	}
 }

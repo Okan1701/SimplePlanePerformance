@@ -19,6 +19,7 @@ import {FormatAircraftTypePipe} from '../../../../shared/pipes/format-aircraft-t
 import {FormatFuelTypePipe} from '../../../../shared/pipes/format-fuel-type.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { NewFlightService } from '../../services/newflight.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'app-aircraft-details-input',
@@ -36,8 +37,9 @@ export class AircraftDetailsInputComponent implements OnInit {
 		landingGroundTouch: FormControl<number | null>,
 		landing50ftHeight: FormControl<number | null>,
 	}>;
+	private readonly formStorageKey = "aircraftDetailsForm";
 
-	constructor(formBuilder: FormBuilder, private aircraftService: AircraftsService, newFlightService: NewFlightService) {
+	constructor(formBuilder: FormBuilder, private aircraftService: AircraftsService, newFlightService: NewFlightService, private matSnackBar: MatSnackBar) {
 		this.form = formBuilder.group({
 			aircraftId: new FormControl(0, [Validators.required]),
 			registration: new FormControl('', [Validators.required]),
@@ -106,5 +108,41 @@ export class AircraftDetailsInputComponent implements OnInit {
 	protected onRefreshClick(event: MouseEvent): void {
 		event.stopImmediatePropagation();
 		this.aircraftService.loadAircrafts(true);
+	}
+
+	protected saveForm(): void {
+		if (this.form.valid) {
+			window.localStorage.setItem(this.formStorageKey, JSON.stringify(this.form.value));
+			this.matSnackBar.open("Aircraft details saved.", undefined, {
+				duration: 3000,
+			});
+		}
+		else {
+			this.matSnackBar.open("Cannot save invalid form.", undefined, {
+				duration: 3000,
+			});
+		}
+	}
+
+	protected resetForm(): void {
+		this.form.reset();
+		this.matSnackBar.open("Aircraft details reset.", undefined, {
+			duration: 3000,
+		});
+	}
+
+	protected loadFormHistory(): void {
+		let rawData = window.localStorage.getItem(this.formStorageKey);
+		if (rawData == null) {
+			this.matSnackBar.open("No previous data found.", undefined, {
+				duration: 3000,
+			});
+			return;
+		}
+
+		this.form.patchValue(JSON.parse(rawData));
+		this.matSnackBar.open("Previous data loaded.", undefined, {
+			duration: 3000,
+		});
 	}
 }
