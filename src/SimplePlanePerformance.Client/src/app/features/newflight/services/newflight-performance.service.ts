@@ -33,7 +33,9 @@ export class NewFlightPerformanceService {
 			throw Error("No flight details specified!")
 		}
 
-		let performance = {
+		let performance: NewFLightPerformance = {
+			registration: newFlight.aircraftDetails.registration,
+			dateOfFlight: newFlight.flightDetails.dateOfFlight,
 			departureTakeOff: this.calculateTakeOff(newFlight.aircraftDetails, newFlight.airportDetails, newFlight.flightDetails.departureIcao, true),
 			destinationTakeOff: this.calculateTakeOff(newFlight.aircraftDetails, newFlight.airportDetails, newFlight.flightDetails.destinationIcaso, false)
 		};

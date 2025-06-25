@@ -1,6 +1,10 @@
 @let newFlightPerformance = newFlightPerformance$ | async;
 @if (newFlightPerformance != null) {
 	<div class="page-content">
+		<div class="card-label-container">
+			<mat-card appearance="outlined" class="card-label">{{ newFlightPerformance.registration }}</mat-card>
+			<mat-card matTooltip="Date of flight" appearance="outlined" class="card-label">{{ newFlightPerformance.dateOfFlight | date: 'MM/dd/yyyy' }}</mat-card>
+		</div>
 		<app-takeoff-performance
 			[takeoffPerformance]="newFlightPerformance.departureTakeOff">
 		</app-takeoff-performance>

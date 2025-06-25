@@ -20,3 +20,13 @@
 	justify-content: center;
 	height: 100%;
 }
+
+.card-label-container {
+	display: flex;
+	gap: 10px;
+}
+
+.card-label {
+	width: fit-content;
+	padding: 5px 10px;
+}
