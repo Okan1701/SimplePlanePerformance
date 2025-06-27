@@ -14,7 +14,6 @@ export class NewFlightPerformanceService {
 
 	constructor(newFlightService: NewFlightService) {
 		newFlightService.newFlight$
-			.pipe(filter(newFlight => !!newFlight?.flightDetails && !!newFlight?.airportDetails && !!newFlight?.aircraftDetails), tap(x => console.log(x)))
 			.subscribe(newFlight => this.calculatePerformance(newFlight));
 	}
 

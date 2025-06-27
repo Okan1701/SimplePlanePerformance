@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
+import {BehaviorSubject, combineLatest, filter, map, Observable} from 'rxjs';
 import { FlightDetails } from '../models/flight-details.model';
 import { AircraftDetails } from '../models/aircraft-details.model';
 import { NewFlight } from '../models/newflight.model';
@@ -19,7 +19,8 @@ export class NewFlightService {
 				flightDetails: flightDetails,
 				aircraftDetails: aircraftDetails,
 				airportDetails: airportDetails
-			}) as NewFlight)
+			}) as NewFlight),
+			filter(newFlight => !!newFlight?.flightDetails && !!newFlight?.airportDetails && !!newFlight?.aircraftDetails)
 		);
 	}
 
