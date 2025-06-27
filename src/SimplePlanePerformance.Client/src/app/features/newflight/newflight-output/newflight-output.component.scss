@@ -29,4 +29,8 @@
 .card-label {
 	width: fit-content;
 	padding: 5px 10px;
+	display: flex;
+	flex-direction: row;
+	gap: 5px;
+	align-items: center;
 }
