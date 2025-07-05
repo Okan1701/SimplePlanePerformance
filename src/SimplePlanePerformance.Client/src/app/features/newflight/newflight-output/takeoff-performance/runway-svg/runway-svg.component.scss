@@ -1,0 +1,34 @@
+svg {
+	width: 100%
+}
+
+.center-line {
+	stroke: white;
+	stroke-width: 5px;
+}
+
+.runway-rect {
+	fill: rgb(30,30,30);
+	stroke: white;
+	stroke-width: 2px;
+}
+
+.runway-used-line {
+	stroke-width: 10px;
+}
+
+.stroke-orange:hover {
+	stroke: #ffd27b;
+}
+
+.stroke-orange {
+	stroke: orange;
+}
+
+.stroke-green {
+	stroke: green;
+}
+
+.stroke-green:hover {
+	stroke: #84ff84;
+}

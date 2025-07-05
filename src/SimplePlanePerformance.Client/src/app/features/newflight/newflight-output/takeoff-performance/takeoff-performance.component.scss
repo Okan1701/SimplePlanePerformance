@@ -7,3 +7,17 @@
 	display: flex;
 	flex-direction: column;
 }
+
+.runway-svg {
+	flex: 1;
+	justify-self: end;
+}
+
+.runway-svg > svg {
+	width: 100%;
+}
+
+.dashed-line {
+	stroke-dasharray: 5;
+	stroke: white;
+}

@@ -21,5 +21,6 @@
 			<span>{{ takeoffPerformance?.runwayToraUsedPercentage | number }}%</span>
 			<span>{{ takeoffPerformance?.runwayTodaUsedPercentage | number  }}%</span>
 		</div>
+		<app-runway-svg [takeoffPerformance]="takeoffPerformance" class="runway-svg"></app-runway-svg>
 	</mat-card-content>
 </mat-card>
