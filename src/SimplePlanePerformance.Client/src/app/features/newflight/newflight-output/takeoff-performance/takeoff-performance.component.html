@@ -21,11 +21,6 @@
 			<span>{{ takeoffPerformance?.runwayToraUsedPercentage | number }}%</span>
 			<span>{{ takeoffPerformance?.runwayTodaUsedPercentage | number  }}%</span>
 		</div>
-		<div class="runway-svg">
-			<svg xmlns="http://www.w3.org/2000/svg">
-				<rect width="100%" height="80" x="0" y="0" fill="black" />
-				<line x1="0" y1="40" x2="100%" y2="40" stroke-dasharray="40, 10" style="stroke:white;stroke-width:5"/>
-			</svg>
-		</div>
+		<app-runway-svg [takeoffPerformance]="takeoffPerformance" class="runway-svg"></app-runway-svg>
 	</mat-card-content>
 </mat-card>
