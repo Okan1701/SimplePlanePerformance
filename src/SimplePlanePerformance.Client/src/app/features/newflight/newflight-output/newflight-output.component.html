@@ -2,8 +2,13 @@
 @if (newFlightPerformance != null) {
 	<div class="page-content">
 		<div class="card-label-container">
-			<mat-card appearance="outlined" class="card-label">{{ newFlightPerformance.registration }}</mat-card>
-			<mat-card matTooltip="Date of flight" appearance="outlined" class="card-label">{{ newFlightPerformance.dateOfFlight | date: 'MM/dd/yyyy' }}</mat-card>
+			<mat-card appearance="outlined" class="card-label">
+				<mat-icon>airlines</mat-icon><span>{{ newFlightPerformance.registration }}</span>
+			</mat-card>
+			<mat-card matTooltip="Date of flight" appearance="outlined" class="card-label">
+				<mat-icon>flight_takeoff</mat-icon><span>{{ newFlightPerformance.dateOfFlight | date: 'MM/dd/yyyy' }}</span>
+			</mat-card>
+			<button class="btn-save" (click)="saveFlight()" matTooltip="Save flight" mat-icon-button><mat-icon>save</mat-icon></button>
 		</div>
 		<app-takeoff-performance
 			[takeoffPerformance]="newFlightPerformance.departureTakeOff">
