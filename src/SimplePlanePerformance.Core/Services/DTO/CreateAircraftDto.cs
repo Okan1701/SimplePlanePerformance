@@ -25,6 +25,8 @@ public class CreateAircraftDto
     public int? MaxTakeoffTailWind { get; set; }
     
     public int? MaxTakeoffCrossWind { get; set; }
+    
+    public double CruiseFuelLitersPerHour { get; set; }
 
     public Aircraft ToAircraftEntity() => new()
     {
@@ -36,6 +38,7 @@ public class CreateAircraftDto
         MaxLandingTailWind = MaxLandingTailWind,
         MaxTakeoffTailWind = MaxTakeoffTailWind,
         MaxTakeoffCrossWind = MaxTakeoffCrossWind,
+        CruiseFuelLitersPerHour = CruiseFuelLitersPerHour
     };
 
 }

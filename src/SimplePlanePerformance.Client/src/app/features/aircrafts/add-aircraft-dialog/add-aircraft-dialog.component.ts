@@ -43,7 +43,8 @@ export class AddAircraftDialogComponent {
 			maxLandingCrossWind: [this.aircraft?.maxLandingCrossWind ?? null],
 			maxLandingTailWind: [this.aircraft?.maxLandingTailWind ?? null],
 			maxTakeoffCrossWind: [this.aircraft?.maxTakeoffCrossWind ?? null],
-			maxTakeoffTailWind: [this.aircraft?.maxTakeoffTailWind ?? null]
+			maxTakeoffTailWind: [this.aircraft?.maxTakeoffTailWind ?? null],
+			cruiseFuelLitersPerHour: [this.aircraft?.cruiseFuelLitersPerHour ?? null]
 		});
 	}
 
@@ -61,7 +62,8 @@ export class AddAircraftDialogComponent {
 			maxLandingCrossWind: this.form.value.maxLandingCrossWind ?? undefined,
 			maxLandingTailWind: this.form.value.maxLandingTailWind ?? undefined,
 			maxTakeoffTailWind: this.form.value.maxTakeoffTailWind ?? undefined,
-			maxTakeoffCrossWind: this.form.value.maxTakeoffCrossWind ?? undefined
+			maxTakeoffCrossWind: this.form.value.maxTakeoffCrossWind ?? undefined,
+			cruiseFuelLitersPerHour: this.form.value.cruiseFuelLitersPerHour ?? 0
 		}
 
 		let operation = this.isEditMode ?

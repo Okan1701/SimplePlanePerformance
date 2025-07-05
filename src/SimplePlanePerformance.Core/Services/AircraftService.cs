@@ -103,5 +103,10 @@ public class AircraftService : IAircraftService
         {
             throw new EntityValidationException("Model cannot be empty");
         }
+
+        if (aircraft?.CruiseFuelLitersPerHour is < 0)
+        {
+            throw new EntityValidationException("Cruise Fuel Consumption cannot be negative");
+        }
     }
 }

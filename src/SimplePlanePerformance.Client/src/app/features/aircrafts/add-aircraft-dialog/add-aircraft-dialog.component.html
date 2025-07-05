@@ -66,6 +66,19 @@
 				</mat-form-field>
 			</div>
 		</div>
+
+		<div class="divider">Fuel</div>
+		<div class="form-group">
+			<div class="form-input-row">
+				<mat-form-field class="flex-grow" appearance="outline">
+					<mat-label>Cruise Fuel Consumption</mat-label>
+					<input [formControl]="form.controls.cruiseFuelLitersPerHour" type="number" [min]="0" matInput
+						   placeholder="Ex. 10">
+					<mat-error>Must be a positive number</mat-error>
+					<span matTextSuffix>Liters per Hour</span>
+				</mat-form-field>
+			</div>
+		</div>
 	</form>
 	@if (isEditMode) {
 		<div>Created on: {{ aircraft?.createdDate | date }}</div>

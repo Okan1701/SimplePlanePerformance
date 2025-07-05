@@ -13,4 +13,5 @@ export type Aircraft = {
   maxLandingTailWind?: number;
   maxTakeoffTailWind?: number;
   maxTakeoffCrossWind?: number;
+  cruiseFuelLitersPerHour: number;
 }

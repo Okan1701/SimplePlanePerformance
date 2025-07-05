@@ -20,6 +20,8 @@ public class AircraftDto : EntityDto
     public int? MaxTakeoffTailWind { get; set; }
     
     public int? MaxTakeoffCrossWind { get; set; }
+    
+    public double CruiseFuelLitersPerHour { get; set; }
 
     public static AircraftDto FromAircraft(Aircraft aircraft) => new()
     {
@@ -33,6 +35,7 @@ public class AircraftDto : EntityDto
         MaxLandingCrossWind = aircraft.MaxLandingCrossWind,
         MaxLandingTailWind = aircraft.MaxLandingTailWind,
         MaxTakeoffTailWind = aircraft.MaxTakeoffTailWind,
-        MaxTakeoffCrossWind = aircraft.MaxTakeoffCrossWind
+        MaxTakeoffCrossWind = aircraft.MaxTakeoffCrossWind,
+        CruiseFuelLitersPerHour = aircraft.CruiseFuelLitersPerHour,
     };
 }

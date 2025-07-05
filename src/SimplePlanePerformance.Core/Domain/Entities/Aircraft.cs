@@ -19,4 +19,6 @@ public class Aircraft : Entity
     public int? MaxTakeoffTailWind { get; set; }
     
     public int? MaxTakeoffCrossWind { get; set; }
+    
+    public double CruiseFuelLitersPerHour { get; set; }
 }
