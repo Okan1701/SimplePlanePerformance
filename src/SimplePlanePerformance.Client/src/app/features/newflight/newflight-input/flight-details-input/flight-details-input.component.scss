@@ -21,6 +21,10 @@ mat-card-subtitle {
 	justify-content:  space-between;
 }
 
-.card-input-row > * {
+.flex-1 > * {
 	flex: 1;
+}
+
+.input-field-duration {
+	max-width: 150px;
 }

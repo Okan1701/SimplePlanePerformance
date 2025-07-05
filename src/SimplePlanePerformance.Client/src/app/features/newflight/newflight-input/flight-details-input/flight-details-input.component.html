@@ -8,30 +8,46 @@
 		</app-card-input-title>
 	</mat-card-header>
 	<mat-card-content>
-		<form class="card-input-row" [formGroup]="form">
-			<mat-form-field appearance="outline" subscriptSizing="fixed">
-				<mat-label>Departure</mat-label>
-				<mat-error>Must be 4 characters</mat-error>
-				<input matInput placeholder="ZZZZ" [formControl]="this.form.controls.departureAirport"/>
-				<button mat-icon-button matSuffix matTooltip="Swap departure and destination" (click)="swapDepartureDestination($event)"><mat-icon>sync_alt</mat-icon></button>
-			</mat-form-field>
-			<mat-form-field appearance="outline" subscriptSizing="fixed">
-				<mat-label>Destination</mat-label>
-				<mat-error>Must be 4 characters</mat-error>
-				<input matInput placeholder="ZZZZ" required [formControl]="this.form.controls.arrivalAirport"/>
-			</mat-form-field>
-			<mat-form-field appearance="outline" subscriptSizing="fixed">
-				<mat-label>Alternate</mat-label>
-				<mat-error>Must be 4 characters</mat-error>
-				<input matInput placeholder="ZZZZ" [formControl]="this.form.controls.alternateAirport" />
-			</mat-form-field>
-			<mat-form-field appearance="outline" subscriptSizing="fixed">
-				<mat-label>Date of Flight</mat-label>
-				<mat-error>Must be valid date</mat-error>
-				<input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" [formControl]="this.form.controls.dateOfFlight">
-				<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-				<mat-datepicker #picker></mat-datepicker>
-			</mat-form-field>
+		<form [formGroup]="form">
+			<div class="card-input-row flex-1" >
+				<mat-form-field appearance="outline" subscriptSizing="fixed">
+					<mat-label>Departure</mat-label>
+					<mat-error>Must be 4 characters</mat-error>
+					<input matInput placeholder="ZZZZ" [formControl]="this.form.controls.departureAirport"/>
+					<button mat-icon-button matSuffix matTooltip="Swap departure and destination" (click)="swapDepartureDestination($event)"><mat-icon>sync_alt</mat-icon></button>
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="fixed">
+					<mat-label>Destination</mat-label>
+					<mat-error>Must be 4 characters</mat-error>
+					<input matInput placeholder="ZZZZ" required [formControl]="this.form.controls.arrivalAirport"/>
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="fixed">
+					<mat-label>Alternate</mat-label>
+					<mat-error>Must be 4 characters</mat-error>
+					<input matInput placeholder="ZZZZ" [formControl]="this.form.controls.alternateAirport" />
+				</mat-form-field>
+				<mat-form-field appearance="outline" subscriptSizing="fixed">
+					<mat-label>Date of Flight</mat-label>
+					<mat-error>Must be valid date</mat-error>
+					<input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" [formControl]="this.form.controls.dateOfFlight">
+					<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+				</mat-form-field>
+			</div>
+			<div class="card-input-row" >
+				<mat-form-field class="input-field-duration" appearance="outline" subscriptSizing="fixed">
+					<mat-label>Flight Duration</mat-label>
+					<mat-error>Must be HH:MM</mat-error>
+					<mat-hint>Format: HH:MM</mat-hint>
+					<input matInput placeholder="00:00"/>
+				</mat-form-field>
+				<mat-form-field class="input-field-duration" appearance="outline" subscriptSizing="fixed">
+					<mat-label>Alt. Duration</mat-label>
+					<mat-error>Must be 4 characters</mat-error>
+					<mat-hint>Format: HH:MM</mat-hint>
+					<input matInput placeholder="00:00" />
+				</mat-form-field>
+			</div>
 		</form>
 	</mat-card-content>
 </mat-card>
