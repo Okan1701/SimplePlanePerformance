@@ -1,6 +1,7 @@
 .flex-columns {
 	display: flex;
-	gap: 20px;
+	flex-direction: column;
+	gap: 30px;
 }
 
 .flex-rows {
@@ -20,4 +21,40 @@
 .dashed-line {
 	stroke-dasharray: 5;
 	stroke: white;
+}
+
+.item {
+	display: flex;
+	flex-direction: column;
+	width: fit-content;
+	gap: 5px;
+}
+
+.item > span:first-child {
+	color: gray;
+	font-size: 10px;
+	text-transform: uppercase;
+	display: flex;
+	justify-content: center;
+}
+
+.item > span:nth-child(2) {
+	font-size: 26px;
+	display: flex;
+	justify-content: center;
+}
+
+.item > span:nth-child(3) {
+	display: flex;
+	justify-content: center;
+	font-style: italic;
+	color: #c1c1c1;
+}
+
+.perf-values {
+	margin-top: 10px;
+	display: flex;
+	gap: 20px;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
