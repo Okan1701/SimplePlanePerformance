@@ -6,21 +6,21 @@
 		<div class="perf-values">
 			<div class="item">
 				<span>Liftoff</span>
-				<span>{{ takeoffPerformance?.liftoffDistance | number }}m</span>
-				<span matTooltip="Extra 25% margin applied">+25% {{ takeoffPerformance?.liftoffDistanceMargin | number }}m</span>
+				<span><app-clipboard-text>{{ takeoffPerformance?.liftoffDistance | number }}m</app-clipboard-text></span>
+				<span matTooltip="Extra 25% margin applied"><app-clipboard-text>+25% {{ takeoffPerformance?.liftoffDistanceMargin | number }}m</app-clipboard-text></span>
 			</div>
 			<div class="item">
 				<span>To 50ft height</span>
-				<span>{{ takeoffPerformance?.liftoffTo50ftDistance | number }}m</span>
-				<span matTooltip="Extra 25% margin applied">+25% {{ takeoffPerformance?.liftoffTo50ftDistanceMargin | number }}m</span>
+				<span><app-clipboard-text>{{ takeoffPerformance?.liftoffTo50ftDistance | number }}m</app-clipboard-text></span>
+				<span matTooltip="Extra 25% margin applied"><app-clipboard-text>+25% {{ takeoffPerformance?.liftoffTo50ftDistanceMargin | number }}m</app-clipboard-text></span>
 			</div>
 			<div class="item">
 				<span>RWY TORA Used</span>
-				<span>{{ takeoffPerformance?.runwayToraUsedPercentage | number: '1.2-2' }}%</span>
+				<span><app-clipboard-text>{{ takeoffPerformance?.runwayToraUsedPercentage | number: '1.2-2' }}%</app-clipboard-text></span>
 			</div>
 			<div class="item">
 				<span>RWY TODA Used</span>
-				<span>{{ takeoffPerformance?.runwayTodaUsedPercentage | number: '1.2-2' }}%</span>
+				<span><app-clipboard-text>{{ takeoffPerformance?.runwayTodaUsedPercentage | number: '1.2-2' }}%</app-clipboard-text></span>
 			</div>
 		</div>
 		<app-runway-svg [takeoffPerformance]="takeoffPerformance" class="runway-svg"></app-runway-svg>

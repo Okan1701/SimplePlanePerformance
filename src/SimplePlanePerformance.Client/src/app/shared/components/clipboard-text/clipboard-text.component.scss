@@ -1,0 +1,21 @@
+mat-icon {
+	transform: scale(0.50);
+	display: none;
+}
+
+.clipboard-text {
+	display: flex;
+	width: fit-content;
+	padding: 3px 5px;
+}
+
+.clipboard-text:hover {
+	border-radius: 8px;
+	cursor: pointer;
+}
+
+.clipboard-text:hover > div > mat-icon {
+	display: inline;
+	position: absolute;
+}
+
