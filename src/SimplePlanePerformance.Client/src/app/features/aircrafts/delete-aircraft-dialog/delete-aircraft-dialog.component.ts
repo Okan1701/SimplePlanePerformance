@@ -4,7 +4,7 @@ import {Aircraft} from '../../../shared/models/aircraft.model';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {CommonModule} from '@angular/common';
+
 import {AircraftsService} from '../../../shared/services/aircrafts.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Status} from '../../../shared/enums/status.enum';
@@ -12,12 +12,11 @@ import {Status} from '../../../shared/enums/status.enum';
 @Component({
 	selector: 'app-delete-aircraft-dialog',
 	imports: [
-		CommonModule,
-		MatDialogModule,
-		MatIconModule,
-		MatButtonModule,
-		MatProgressSpinnerModule
-	],
+    MatDialogModule,
+    MatIconModule,
+    MatButtonModule,
+    MatProgressSpinnerModule
+],
 	templateUrl: './delete-aircraft-dialog.component.html',
 	styleUrl: './delete-aircraft-dialog.component.scss'
 })

@@ -1,11 +1,11 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import {CommonModule} from '@angular/common';
+
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-clipboard-text',
-  imports: [MatIconModule, CommonModule],
+  imports: [MatIconModule],
   templateUrl: './clipboard-text.component.html',
   styleUrl: './clipboard-text.component.scss'
 })
