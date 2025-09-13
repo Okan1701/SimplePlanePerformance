@@ -65,6 +65,10 @@ jobs:
       - name: Stop Client app pool
         run: Stop-WebAppPool -Name "SimplePlanePerformance.Client"
         continue-on-error: true
+
+      - name: Sleep for 5 seconds
+        run: Start-Sleep -s 5
+        shell: powershell
         
       - name: Delete old API files
         run: Remove-Item * -Exclude appsettings.Production.json -Recurse
