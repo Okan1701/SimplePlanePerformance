@@ -5,10 +5,12 @@ export type AirportDetails = {
 	departureLda: number,
 	departureWindDirection: number,
 	departureWindSpeed: number,
+	departureRwyHdg: number,
 	destinationTora: number,
 	destinationToda: number,
 	destinationAsda: number
 	destinationLda: number,
 	destinationWindDirection: number,
-	destinationWindSpeed: number
+	destinationWindSpeed: number,
+	destinationRwyHdg: number,
 }

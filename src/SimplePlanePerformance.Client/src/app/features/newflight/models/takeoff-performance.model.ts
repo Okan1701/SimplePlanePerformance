@@ -5,5 +5,7 @@ export type TakeoffPerformance = {
 	liftoffDistanceMargin: number,
 	liftoffTo50ftDistanceMargin: number,
 	runwayToraUsedPercentage: number,
-	runwayTodaUsedPercentage: number
+	runwayTodaUsedPercentage: number,
+	headWind: number,
+	crossWind: number
 }

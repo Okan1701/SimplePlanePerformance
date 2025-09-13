@@ -32,11 +32,13 @@ export class AirportDetailsInputComponent {
 		departureAsda: FormControl<number | null>
 		departureLda: FormControl<number | null>,
 		departureWind: FormControl<string | null>,
+		departureRwyHdg: FormControl<number | null>,
 		destinationTora: FormControl<number | null>,
 		destinationToda: FormControl<number | null>,
 		destinationAsda: FormControl<number | null>
 		destinationLda: FormControl<number | null>,
-		destinationWind: FormControl<string | null>
+		destinationWind: FormControl<string | null>,
+		destinationRwyHdg: FormControl<number | null>,
 	}>;
 	private readonly formStorageKey = "airportDetailsForm";
 
@@ -47,11 +49,13 @@ export class AirportDetailsInputComponent {
 			departureAsda: new FormControl(0, [Validators.required, Validators.min(100)]),
 			departureLda: new FormControl(0, [Validators.required, Validators.min(100)]),
 			departureWind: new FormControl('', [Validators.required]),
+			departureRwyHdg: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(359)]),
 			destinationTora: new FormControl(0, [Validators.required, Validators.min(100)]),
 			destinationToda: new FormControl(0, [Validators.required, Validators.min(100)]),
 			destinationAsda: new FormControl(0, [Validators.required, Validators.min(100)]),
 			destinationLda: new FormControl(0, [Validators.required, Validators.min(100)]),
 			destinationWind: new FormControl('', [Validators.required]),
+			destinationRwyHdg: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(359)]),
 		});
 
 		this.form.valueChanges.pipe(
@@ -75,12 +79,14 @@ export class AirportDetailsInputComponent {
 					departureLda: formValue.departureLda as number,
 					departureWindDirection: parseInt(departureWindComponents[0].trim() ?? "0"),
 					departureWindSpeed: parseInt(departureWindComponents[1].trim() ?? "0"),
+					departureRwyHdg: formValue.departureRwyHdg as number,
 					destinationTora: formValue.destinationTora as number,
 					destinationToda: formValue.destinationToda as number,
 					destinationAsda: formValue.destinationAsda as number,
 					destinationLda: formValue.destinationLda as number,
 					destinationWindDirection: parseInt(destinationWindComponents[0].trim() ?? "0"),
 					destinationWindSpeed: parseInt(destinationWindComponents[1].trim() ?? "0"),
+					destinationRwyHdg: formValue.destinationRwyHdg as number,
 				}
 			} else {
 				newFlightService.airportDetails = null;

@@ -50,10 +50,30 @@
 	color: #c1c1c1;
 }
 
+.wind-item > span:nth-child(2) {
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.wind-item > span:nth-child(3) {
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	color: inherit;
+	font-style: inherit;
+}
+
 .perf-values {
 	margin-top: 10px;
 	display: flex;
 	gap: 20px;
 	flex-wrap: wrap;
 	justify-content: space-between;
+}
+
+.wind-speed {
+	min-width: 50px;
+	display: flex;
+	justify-content: end;
 }

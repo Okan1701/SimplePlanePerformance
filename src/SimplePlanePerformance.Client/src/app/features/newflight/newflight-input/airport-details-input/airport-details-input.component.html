@@ -10,7 +10,7 @@
 	<mat-card-content>
 		<form [formGroup]="form">
 			<div class="divider divider-spacing">Departure Airport</div>
-			<div class="card-input-row">
+			<div class="card-input-row margin-bottom flex-grow">
 				<mat-form-field appearance="outline" subscriptSizing="fixed">
 					<mat-label>Runway TORA</mat-label>
 					<input matInput type="number" placeholder="0000" [formControl]="form.controls.departureTora" />
@@ -36,30 +36,29 @@
 					<mat-error>Must be 100 or more</mat-error>
 				</mat-form-field>
 			</div>
-			<div class="card-input-row-spaced">
+			<div class="card-input-row">
 				<mat-form-field appearance="outline" subscriptSizing="dynamic">
 					<mat-label>Wind direction</mat-label>
 					<mat-hint>Format: HDG / KT</mat-hint>
 					<input matInput placeholder="000 / 00" [formControl]="form.controls.departureWind" />
 				</mat-form-field>
-				@if (departureMetar) {
-					<div class="small-text">
-						<div>{{ departureMetar.displayName }}</div>
-						<div>{{ departureMetar.rawMetar }}</div>
-					</div>
-				}
+				<mat-form-field class="form-field-rwy-hdg" appearance="outline" subscriptSizing="fixed">
+					<mat-label>Runway Heading</mat-label>
+					<mat-error>Must be a valid heading</mat-error>
+					<input type="number" matInput placeholder="000" [formControl]="form.controls.departureRwyHdg" />
+				</mat-form-field>
 				@if (isFetchingDepartureWind) {
-					<button type="button" mat-button disabled>
+					<button class="btn-fetch-wind" type="button" mat-button disabled>
 						<div class="spinner-label">
 							<mat-spinner [diameter]="16" /><span>Fetching</span>
 						</div>
 					</button>
 				} @else {
-					<button type="button" mat-button (click)="fetchDepartureWind()"><mat-icon>download</mat-icon> Fetch Wind</button>
+					<button class="btn-fetch-wind" type="button" mat-button (click)="fetchDepartureWind()"><mat-icon>download</mat-icon> Fetch Wind</button>
 				}
 			</div>
 			<div class="divider divider-spacing">Destination Airport</div>
-			<div class="card-input-row">
+			<div class="card-input-row margin-bottom flex-grow">
 				<mat-form-field appearance="outline" subscriptSizing="fixed">
 					<mat-label>Runway TORA</mat-label>
 					<input matInput type="number" placeholder="0000" [formControl]="form.controls.destinationTora" />
@@ -85,26 +84,25 @@
 					<mat-error>Must be 100 or more</mat-error>
 				</mat-form-field>
 			</div>
-			<div class="card-input-row-spaced">
+			<div class="card-input-row">
 				<mat-form-field appearance="outline" subscriptSizing="dynamic">
 					<mat-label>Wind direction</mat-label>
 					<mat-hint>Format: HDG / KT</mat-hint>
 					<input matInput placeholder="000 / 00" [formControl]="form.controls.destinationWind" />
 				</mat-form-field>
-				@if (destinationMetar) {
-					<div class="small-text">
-						<div>{{ destinationMetar.displayName }}</div>
-						<div>{{ destinationMetar.rawMetar }}</div>
-					</div>
-				}
+				<mat-form-field class="form-field-rwy-hdg" appearance="outline" subscriptSizing="fixed">
+					<mat-label>Runway Heading</mat-label>
+					<mat-error>Must be a valid heading</mat-error>
+					<input type="number" matInput placeholder="000" [formControl]="form.controls.destinationRwyHdg" />
+				</mat-form-field>
 				@if (isFetchingDestinationWind) {
-					<button type="button" mat-button disabled>
+					<button class="btn-fetch-wind" type="button" mat-button disabled>
 						<div class="spinner-label">
 							<mat-spinner [diameter]="16" /><span>Fetching</span>
 						</div>
 					</button>
 				} @else {
-					<button type="button" mat-button (click)="fetchDestinationWind()"><mat-icon>download</mat-icon> Fetch Wind</button>
+					<button class="btn-fetch-wind" type="button" mat-button (click)="fetchDestinationWind()"><mat-icon>download</mat-icon> Fetch Wind</button>
 				}
 			</div>
 		</form>

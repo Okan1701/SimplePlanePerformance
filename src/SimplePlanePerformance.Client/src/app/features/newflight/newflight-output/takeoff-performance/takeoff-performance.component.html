@@ -22,6 +22,25 @@
 				<span>RWY TODA Used</span>
 				<span><app-clipboard-text>{{ takeoffPerformance?.runwayTodaUsedPercentage | number: '1.2-2' }}%</app-clipboard-text></span>
 			</div>
+			<div class="item wind-item">
+				<span>Wind components</span>
+				<span>
+					@if (isHeadwind) {
+						<mat-icon>arrow_downward_alt</mat-icon>
+					} @else {
+						<mat-icon>arrow_upward_alt</mat-icon>
+					}
+					<app-clipboard-text class="wind-speed">{{ absolute(takeoffPerformance?.headWind) | number: '1.0-0' }}kt</app-clipboard-text>
+				</span>
+				<span>
+					@if (isCrosswindFromRight) {
+						<mat-icon>west</mat-icon>
+					} @else {
+						<mat-icon>east</mat-icon>
+					}
+					<app-clipboard-text class="wind-speed">{{ absolute(takeoffPerformance?.crossWind) | number: '1.0-0' }}kt</app-clipboard-text>
+				</span>
+			</div>
 		</div>
 		<app-runway-svg [takeoffPerformance]="takeoffPerformance" class="runway-svg"></app-runway-svg>
 	</mat-card-content>

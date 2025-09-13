@@ -13,15 +13,13 @@ mat-card-subtitle {
 .card-input-row {
 	display: flex;
 	gap: 10px;
+}
+
+.margin-bottom {
 	margin-bottom: 20px;
 }
 
-.card-input-row-spaced {
-	display: flex;
-	justify-content:  space-between;
-}
-
-.card-input-row > * {
+.flex-grow > * {
 	flex: 1;
 }
 
@@ -37,4 +35,9 @@ mat-card-subtitle {
 
 .small-text {
 	font-size: 10px;
+}
+
+.btn-fetch-wind {
+	margin-left: auto;
+	flex: initial;
 }

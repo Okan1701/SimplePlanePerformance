@@ -4,7 +4,7 @@ import { NewFLightPerformance } from '../models/newflight-performance.model';
 import { TakeoffPerformance } from '../models/takeoff-performance.model';
 import { AircraftDetails } from '../models/aircraft-details.model';
 import { AirportDetails } from '../models/airport-details.model';
-import { BehaviorSubject, filter, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { NewFlightService } from './newflight.service';
 
 @Injectable({providedIn: 'root'})
@@ -47,6 +47,21 @@ export class NewFlightPerformanceService {
 		let liftOffMargin = aircraft.takeOffLifeoff * 1.25;
 		let liftOff50ftMargin = aircraft.takeoffTo50ftHeight * 1.25;
 
+		let windHeading = isDeparture ? airport.departureWindDirection : airport.destinationWindDirection;
+		let windSpeed = isDeparture ? airport.departureWindSpeed : airport.destinationWindSpeed;
+		let runwayHeading = isDeparture ? airport.departureRwyHdg : airport.destinationRwyHdg;
+
+		// Helper functions
+		// Convert angle difference to radians
+		const toRadians = (degrees: number): number => (degrees * Math.PI) / 180;
+		// Normalize angle to 0-360 range
+		const normalizeAngle = (angle: number): number => ((angle % 360) + 360) % 360;
+
+		const angleDifference = normalizeAngle(windHeading - runwayHeading);
+		const windAngleRad = toRadians(angleDifference);
+		const headWind = +(windSpeed * Math.cos(windAngleRad)).toFixed(2);
+		const crossWind = +(windSpeed * Math.sin(windAngleRad)).toFixed(2);
+
 		return {
 			icao: icao,
 			liftoffDistance: aircraft.takeOffLifeoff,
@@ -55,6 +70,8 @@ export class NewFlightPerformanceService {
 			liftoffTo50ftDistanceMargin: liftOff50ftMargin,
 			runwayToraUsedPercentage: (liftOffMargin / tora) * 100,
 			runwayTodaUsedPercentage: (liftOff50ftMargin / toda) * 100,
+			headWind: headWind,
+			crossWind: crossWind
 		}
 	}
 }
