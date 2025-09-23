@@ -32,12 +32,26 @@ jobs:
         run: npm ci
         working-directory: src/SimplePlanePerformance.Client
 
-      - name: Publish Client
-        run: npm run build
+      - name: Publish Client (PROD)
+        run: npm run build-prod
         working-directory: src/SimplePlanePerformance.Client
         
-      - name: Copy Client to publish
-        run: cp -R ./src/SimplePlanePerformance.Client/dist/simple-plane-performance.client ./publish/SimplePlanePerformance.Client
+      - name: Move Client (PROD) to publish
+        run: mv ./src/SimplePlanePerformance.Client/dist/simple-plane-performance.client ./publish/SimplePlanePerformance.Client_PROD
+        
+      - name: Publish Client (STAGING)
+        run: npm run build-staging
+        working-directory: src/SimplePlanePerformance.Client
+        
+      - name: Move Client (STAGING) to publish
+        run: mv ./src/SimplePlanePerformance.Client/dist/simple-plane-performance.client ./publish/SimplePlanePerformance.Client_STAG
+        
+      - name: Publish Client (TESTING)
+        run: npm run build-testing
+        working-directory: src/SimplePlanePerformance.Client
+        
+      - name: Move Client (TESTING) to publish
+        run: mv ./src/SimplePlanePerformance.Client/dist/simple-plane-performance.client ./publish/SimplePlanePerformance.Client_TEST
         
       - name: Upload artifacts
         uses: actions/upload-artifact@v4.3.2
@@ -48,7 +62,7 @@ jobs:
           if-no-files-found: error
       
     
-  deploy:
+  deploy-testing:
     runs-on: planeperformance.emeni.local
     needs: [ build ]
     
@@ -59,11 +73,11 @@ jobs:
           name: simpleplaneperformance-win-x64
           
       - name: Stop API app pool
-        run: Stop-WebAppPool -Name "SimplePlanePerformance.WebAPI"
+        run: Stop-WebAppPool -Name "SimplePlanePerformance.WebAPI_TEST"
         continue-on-error: true
 
       - name: Stop Client app pool
-        run: Stop-WebAppPool -Name "SimplePlanePerformance.Client"
+        run: Stop-WebAppPool -Name "SimplePlanePerformance.Client_TEST"
         continue-on-error: true
 
       - name: Sleep for 5 seconds
@@ -72,22 +86,22 @@ jobs:
         
       - name: Delete old API files
         run: Remove-Item * -Exclude appsettings.Production.json -Recurse
-        working-directory: E:\Apps\SimplePlanePerformance.WebAPI\
+        working-directory: E:\Apps\TEST_SimplePlanePerformance.WebAPI\
 
       - name: Delete old Client files
         run: Remove-Item * -Recurse
-        working-directory: E:\Apps\SimplePlanePerformance.Client\
+        working-directory: E:\Apps\TEST_SimplePlanePerformance.Client\
         
       - name: Copy API files
-        run: cp -R .\SimplePlanePerformance.WebAPI\* E:\Apps\SimplePlanePerformance.WebAPI\
+        run: cp -R .\SimplePlanePerformance.WebAPI\* E:\Apps\TEST_SimplePlanePerformance.WebAPI\
         working-directory: ${{ github.workspace }}
         
       - name: Copy Client files
-        run: cp -R .\SimplePlanePerformance.Client\browser\* E:\Apps\SimplePlanePerformance.Client\
+        run: cp -R .\SimplePlanePerformance.Client_TEST\browser\* E:\Apps\TEST_SimplePlanePerformance.Client\
         working-directory: ${{ github.workspace }}
         
       - name: Start API app pool
-        run: Start-WebAppPool -Name "SimplePlanePerformance.WebAPI"
+        run: Start-WebAppPool -Name "SimplePlanePerformance.WebAPI_TEST"
 
       - name: Start Client app pool
-        run: Start-WebAppPool -Name "SimplePlanePerformance.Client"
+        run: Start-WebAppPool -Name "SimplePlanePerformance.Client_TEST"
