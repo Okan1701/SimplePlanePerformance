@@ -1,0 +1,35 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-subtitle>Fuel Calculation</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="fuel-calculation-container">
+            <span class="fuel-calculation-row">
+                <span>Trip Fuel</span>
+                <span>{{ (fuelCalculation$ | async)?.tripFuel }} L</span>
+            </span>
+            <span class="fuel-calculation-row">
+                <span matTooltip="Contingency fuel">CONT Fuel*</span>
+                <span>{{ (fuelCalculation$ | async)?.contingencyFuel }} L</span>
+            </span>
+            <span class="fuel-calculation-row">
+                <span>Alternate Fuel</span>
+                <span>{{ (fuelCalculation$ | async)?.alternateFuel }} L</span>
+            </span>
+            <span class="fuel-calculation-row">
+                <span>Final Reserve**</span>
+                <span>{{ (fuelCalculation$ | async)?.finalReserveFuel }} L</span>
+                <mat-icon class="plus-icon">add</mat-icon>
+            </span>
+            <hr>
+            <span class="fuel-calculation-row">
+                <span>Total Fuel</span>
+                <b>{{ (fuelCalculation$ | async)?.totalFuel }} L</b>
+            </span>
+        </div>
+    </mat-card-content>
+    <mat-card-footer>
+        <span>*Contingency fuel is considered 10% of the trip fuel.</span>
+        <span>**Final Reserve is considered 45 minutes of reserve fuel.</span>
+    </mat-card-footer>
+</mat-card>

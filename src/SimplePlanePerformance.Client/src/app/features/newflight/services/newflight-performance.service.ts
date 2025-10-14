@@ -6,6 +6,8 @@ import { AircraftDetails } from '../models/aircraft-details.model';
 import { AirportDetails } from '../models/airport-details.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NewFlightService } from './newflight.service';
+import {FlightDetails} from '../models/flight-details.model';
+import {FuelCalculation} from '../models/fuel-calculation.model';
 
 @Injectable({providedIn: 'root'})
 export class NewFlightPerformanceService {
@@ -36,9 +38,34 @@ export class NewFlightPerformanceService {
 			registration: newFlight.aircraftDetails.registration,
 			dateOfFlight: newFlight.flightDetails.dateOfFlight,
 			departureTakeOff: this.calculateTakeOff(newFlight.aircraftDetails, newFlight.airportDetails, newFlight.flightDetails.departureIcao, true),
-			destinationTakeOff: this.calculateTakeOff(newFlight.aircraftDetails, newFlight.airportDetails, newFlight.flightDetails.destinationIcaso, false)
+			destinationTakeOff: this.calculateTakeOff(newFlight.aircraftDetails, newFlight.airportDetails, newFlight.flightDetails.destinationIcaso, false),
+			fuelCalculation: this.calculateFuel(newFlight.aircraftDetails, newFlight.flightDetails)
 		};
 		this.newFlightPerformanceSubject.next(performance);
+	}
+
+	private calculateFuel(aircraftDetails: AircraftDetails, flightDetails: FlightDetails): FuelCalculation {
+        console.log(aircraftDetails, flightDetails)
+		let tripFuel = aircraftDetails.aircraft.cruiseFuelLitersPerHour * flightDetails.flightDurationHours;
+		tripFuel += aircraftDetails.aircraft.cruiseFuelLitersPerHour * (flightDetails.flightDurationMinutes / 60);
+
+		let contingencyFuel = tripFuel * 0.10;
+		let alternateFuel = aircraftDetails.aircraft.cruiseFuelLitersPerHour * flightDetails.alternateFlightDurationHours;
+		alternateFuel += aircraftDetails.aircraft.cruiseFuelLitersPerHour * (flightDetails.alternateFlightDurationMinutes / 60);
+		let finalReserveFuel = aircraftDetails.aircraft.cruiseFuelLitersPerHour * 0.45;
+        
+        tripFuel = Math.abs(tripFuel)
+        contingencyFuel = Math.abs(contingencyFuel)
+        alternateFuel = Math.abs(alternateFuel)
+        finalReserveFuel = Math.abs(finalReserveFuel)
+
+		return {
+			tripFuel,
+			contingencyFuel,
+			alternateFuel,
+			finalReserveFuel,
+            totalFuel: tripFuel + contingencyFuel + alternateFuel + finalReserveFuel
+		}
 	}
 
 	private calculateTakeOff(aircraft: AircraftDetails, airport: AirportDetails, icao: string, isDeparture: boolean): TakeoffPerformance {

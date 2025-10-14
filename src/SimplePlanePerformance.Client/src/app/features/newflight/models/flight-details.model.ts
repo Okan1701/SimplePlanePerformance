@@ -3,4 +3,8 @@ export type FlightDetails = {
 	destinationIcaso: string;
 	alternateIcao: string;
 	dateOfFlight: Date;
+	flightDurationHours: number;
+	flightDurationMinutes: number;
+	alternateFlightDurationHours: number;
+	alternateFlightDurationMinutes: number;
 }

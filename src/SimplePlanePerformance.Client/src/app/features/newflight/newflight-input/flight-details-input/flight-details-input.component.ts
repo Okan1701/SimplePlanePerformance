@@ -1,19 +1,28 @@
-import { Component } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { filter, map, Observable, startWith } from 'rxjs';
-import { CardInputTitleComponent } from '../card-input-title/card-input-title.component';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NewFlightService } from '../../services/newflight.service';
-import { FlightDetails } from '../../models/flight-details.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {Component} from '@angular/core';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {
+	AbstractControl,
+	FormBuilder,
+	FormControl,
+	FormGroup,
+	ReactiveFormsModule, ValidationErrors,
+	ValidatorFn,
+	Validators
+} from '@angular/forms';
+import {filter, map, Observable, startWith} from 'rxjs';
+import {CardInputTitleComponent} from '../card-input-title/card-input-title.component';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {NewFlightService} from '../../services/newflight.service';
+import {FlightDetails} from '../../models/flight-details.model';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Duration} from './duration.model';
 
 @Component({
 	selector: 'app-flight-details-input',
@@ -26,7 +35,9 @@ export class FlightDetailsInputComponent {
 		departureAirport: FormControl<string | null>,
 		arrivalAirport: FormControl<string | null>,
 		alternateAirport: FormControl<string | null>,
-		dateOfFlight: FormControl<Date | null>
+		dateOfFlight: FormControl<Date | null>,
+		flightDuration: FormControl<string | null>,
+		alternateFlightDuration: FormControl<string | null>,
 	}>;
 	private readonly formStorageKey = "flightDetailsForm";
 
@@ -36,6 +47,8 @@ export class FlightDetailsInputComponent {
 			arrivalAirport: new FormControl('', [Validators.required, Validators.minLength(4)]),
 			alternateAirport: new FormControl('', [Validators.minLength(4)]),
 			dateOfFlight: new FormControl<Date>(new Date(), [Validators.required]),
+			flightDuration: new FormControl<string>('', [Validators.required, Validators.minLength(5), this.durationValidator()]),
+			alternateFlightDuration: new FormControl<string>('', [Validators.required, Validators.minLength(5), this.durationValidator()])
 		});
 
 		this.form.valueChanges.pipe(
@@ -46,7 +59,12 @@ export class FlightDetailsInputComponent {
 				departureIcao: this.form.value.departureAirport,
 				destinationIcaso: this.form.value.arrivalAirport,
 				alternateIcao: this.form.value.alternateAirport,
-				dateOfFlight: this.form.value.dateOfFlight
+				dateOfFlight: this.form.value.dateOfFlight,
+                flightDurationHours: this.parseDuration(this.form.value.flightDuration).hours,
+                flightDurationMinutes: this.parseDuration(this.form.value.flightDuration).minutes,
+                alternateFlightDurationHours: this.parseDuration(this.form.value.alternateFlightDuration).hours,
+                alternateFlightDurationMinutes: this.parseDuration(this.form.value.alternateFlightDuration).minutes,
+                
 			}) as FlightDetails)
 		).subscribe(x => newFlightService.flightDetails = x);
 
@@ -94,8 +112,7 @@ export class FlightDetailsInputComponent {
 			this.matSnackBar.open("Flight details saved.", undefined, {
 				duration: 3000,
 			});
-		}
-		else {
+		} else {
 			this.matSnackBar.open("Cannot save invalid form.", undefined, {
 				duration: 3000,
 			});
@@ -122,5 +139,42 @@ export class FlightDetailsInputComponent {
 		this.matSnackBar.open("Previous data loaded.", undefined, {
 			duration: 3000,
 		});
+	}
+
+	private parseDuration(duration: string | null | undefined): Duration {
+        if (!duration) {
+            throw new Error("Duration cannot be null");
+        }
+        
+		let split = duration.split(":");
+		if (split.length !== 2) {
+			throw new Error("Invalid duration: " + duration);
+		}
+
+		let hours = parseInt(split[0]);
+		let minutes = parseInt(split[1]);
+
+		if (isNaN(hours) || isNaN(minutes)) {
+			throw new Error("Invalid duration: " + duration);
+		}
+
+		return {
+			hours,
+			minutes,
+		};
+	}
+
+	private durationValidator(): ValidatorFn {
+		return (control: AbstractControl): ValidationErrors | null => {
+			let value = control.value as string;
+			let isValid = true;
+			try {
+				this.parseDuration(value);
+			} catch (error) {
+				isValid = false;
+			}
+
+			return isValid ? null : { invalidDuration: true };
+		}
 	}
 }
