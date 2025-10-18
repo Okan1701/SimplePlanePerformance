@@ -12,10 +12,11 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {NewFlightService} from '../services/newflight.service';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { FuelCalculationComponent } from "./fuel-calculation/fuel-calculation.component";
 
 @Component({
 	selector: 'app-newflight-output',
-	imports: [MatIconModule, CommonModule, TakeoffPerformanceComponent, MatTooltipModule, MatCardModule, MatButtonModule],
+    imports: [MatIconModule, CommonModule, TakeoffPerformanceComponent, MatTooltipModule, MatCardModule, MatButtonModule, FuelCalculationComponent],
 	templateUrl: './newflight-output.component.html',
 	styleUrl: './newflight-output.component.scss'
 })

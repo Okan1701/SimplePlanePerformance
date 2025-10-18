@@ -1,5 +1,7 @@
+import {Aircraft} from '../../../shared/models/aircraft.model';
+
 export type AircraftDetails = {
-	aircraftId: number;
+	aircraft: Aircraft;
 	registration: string;
 	takeOffLifeoff: number;
 	takeoffTo50ftHeight: number;

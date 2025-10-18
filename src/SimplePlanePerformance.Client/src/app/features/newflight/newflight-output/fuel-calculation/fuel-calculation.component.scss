@@ -1,0 +1,41 @@
+$gray-text-color: #bfbfbf;
+
+mat-card-footer > span {
+  font-style: italic;
+  color: $gray-text-color;
+  font-size: 12px;
+}
+
+mat-card-footer {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.fuel-calculation-container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.fuel-calculation-row {
+  padding: 3px 10px;
+}
+
+.fuel-calculation-row > span:first-child {
+  display: inline-block;
+  color: $gray-text-color;
+  min-width: 130px;
+}
+
+hr {
+  width: 250px;
+  margin-left: 0;
+  color: $gray-text-color;
+}
+
+.plus-icon {
+  color: $gray-text-color;
+  position: absolute;
+  left: 240px;
+}

@@ -50,12 +50,21 @@ export class AircraftDetailsInputComponent implements OnInit {
 		});
 
 		this.form.valueChanges.pipe(
+			combineLatestWith(this.aircraftService.aircrafts$),
 			takeUntilDestroyed()
-		).subscribe(form => {
-			console.log(form, this.form.valid);
+		).subscribe(([form, aircraft]) => {
+			if (aircraft.length === 0 || !form.aircraftId) {
+				newFlightService.aircraftDetails = null;
+			}
+
+			let selectedAircraft = aircraft.find(x => x.id === form.aircraftId);
+			if (!selectedAircraft) {
+				throw new Error("Chosen aircraft does not exist");
+			}
+
 			if (this.form.valid) {
 				newFlightService.aircraftDetails = {
-					aircraftId: form.aircraftId ?? 0,
+					aircraft: selectedAircraft,
 					registration: form.registration ?? "",
 					takeOffLifeoff: form.takeoffLiftoff ?? 0,
 					takeoffTo50ftHeight: form.takeoff50ftHeight ?? 0,
