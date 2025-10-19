@@ -16,10 +16,12 @@ mat-card-footer {
   display: flex;
   flex-direction: column;
   padding: 10px;
+  width: fit-content;
 }
 
 .fuel-calculation-row {
-  padding: 3px 10px;
+  display: flex;
+  align-items: center;
 }
 
 .fuel-calculation-row > span:first-child {
@@ -29,7 +31,7 @@ mat-card-footer {
 }
 
 hr {
-  width: 250px;
+  width: 120%;
   margin-left: 0;
   color: $gray-text-color;
 }
@@ -37,5 +39,5 @@ hr {
 .plus-icon {
   color: $gray-text-color;
   position: absolute;
-  left: 240px;
+  left: 220px;
 }

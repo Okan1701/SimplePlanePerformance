@@ -6,10 +6,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { NewFlightPerformanceService } from "../../services/newflight-performance.service";
 import { map, Observable } from "rxjs";
 import { FuelCalculation } from "../../models/fuel-calculation.model";
+import { ClipboardTextComponent } from "../../../../shared/components/clipboard-text/clipboard-text.component";
 
 @Component({
     selector: 'app-fuel-calculation',
-    imports: [CommonModule, MatCardModule, MatTooltipModule, MatIconModule, MatTooltipModule],
+    imports: [CommonModule, MatCardModule, MatTooltipModule, MatIconModule, MatTooltipModule, ClipboardTextComponent],
     templateUrl: './fuel-calculation.component.html',
     styleUrl: './fuel-calculation.component.scss'
 })
