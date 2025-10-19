@@ -45,7 +45,6 @@ export class NewFlightPerformanceService {
 	}
 
 	private calculateFuel(aircraftDetails: AircraftDetails, flightDetails: FlightDetails): FuelCalculation {
-        console.log(aircraftDetails, flightDetails)
 		let tripFuel = aircraftDetails.aircraft.cruiseFuelLitersPerHour * flightDetails.flightDurationHours;
 		tripFuel += aircraftDetails.aircraft.cruiseFuelLitersPerHour * (flightDetails.flightDurationMinutes / 60);
 
@@ -54,17 +53,21 @@ export class NewFlightPerformanceService {
 		alternateFuel += aircraftDetails.aircraft.cruiseFuelLitersPerHour * (flightDetails.alternateFlightDurationMinutes / 60);
 		let finalReserveFuel = aircraftDetails.aircraft.cruiseFuelLitersPerHour * 0.45;
         
-        tripFuel = Math.abs(tripFuel)
-        contingencyFuel = Math.abs(contingencyFuel)
-        alternateFuel = Math.abs(alternateFuel)
-        finalReserveFuel = Math.abs(finalReserveFuel)
+        tripFuel = Math.abs(tripFuel);
+        contingencyFuel = Math.abs(contingencyFuel);
+        alternateFuel = Math.abs(alternateFuel);
+        finalReserveFuel = Math.abs(finalReserveFuel);
+        
+        let totalFuel = tripFuel + contingencyFuel + alternateFuel + finalReserveFuel;
+        let totalEndurance = Math.abs(totalFuel / aircraftDetails.aircraft.cruiseFuelLitersPerHour)
 
 		return {
 			tripFuel,
 			contingencyFuel,
 			alternateFuel,
 			finalReserveFuel,
-            totalFuel: tripFuel + contingencyFuel + alternateFuel + finalReserveFuel
+            totalFuel,
+            totalEndurance
 		}
 	}
 

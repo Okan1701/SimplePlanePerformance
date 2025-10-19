@@ -25,8 +25,22 @@ export class FuelCalculationComponent {
                 contingencyFuel: 0,
                 tripFuel: 0,
                 finalReserveFuel: 0,
-                totalFuel: 0
+                totalFuel: 0,
+                totalEndurance: 0
             }))
         )
     }
+    
+    protected convertDecimalHoursToMinutes(decimalHours?: number): number {
+        if (!decimalHours) return 0; 
+        
+        const hours = Math.floor(decimalHours);
+        return Math.round((decimalHours - hours) * 60);
+    }
+
+    protected floorDecimalHours(decimalHours?: number): number {
+        if (!decimalHours) return 0;
+        return Math.floor(decimalHours);
+    }
+
 }

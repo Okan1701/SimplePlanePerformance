@@ -6,27 +6,31 @@
         <div class="fuel-calculation-container">
             <span class="fuel-calculation-row">
                 <span>Trip Fuel</span>
-                <app-clipboard-text>{{ (fuelCalculation$ | async)?.tripFuel }} L</app-clipboard-text>
+                <app-clipboard-text>{{ (fuelCalculation$ | async)?.tripFuel | number: '1.1-1' }} L</app-clipboard-text>
             </span>
             <span class="fuel-calculation-row">
                 <span matTooltip="Contingency fuel">CONT Fuel*</span>
-                <app-clipboard-text>{{ (fuelCalculation$ | async)?.contingencyFuel }} L</app-clipboard-text>
+                <app-clipboard-text>{{ (fuelCalculation$ | async)?.contingencyFuel | number: '1.1-1' }} L</app-clipboard-text>
             </span>
             <span class="fuel-calculation-row">
                 <span>Alternate Fuel</span>
-                <app-clipboard-text>{{ (fuelCalculation$ | async)?.alternateFuel }} L</app-clipboard-text>
+                <app-clipboard-text>{{ (fuelCalculation$ | async)?.alternateFuel | number: '1.1-1' }} L</app-clipboard-text>
             </span>
             <span class="fuel-calculation-row">
                 <span>Final Reserve**</span>
-                <app-clipboard-text>{{ (fuelCalculation$ | async)?.finalReserveFuel }} L</app-clipboard-text>
+                <app-clipboard-text>{{ (fuelCalculation$ | async)?.finalReserveFuel | number: '1.1-1' }} L</app-clipboard-text>
                 <mat-icon class="plus-icon">add</mat-icon>
             </span>
             <hr>
             <span class="fuel-calculation-row">
                 <span>Total Fuel</span>
-                <app-clipboard-text><b>{{ (fuelCalculation$ | async)?.totalFuel }} L</b></app-clipboard-text>
+                <app-clipboard-text><b>{{ (fuelCalculation$ | async)?.totalFuel | number: '1.1-1' }} L</b></app-clipboard-text>
             </span>
         </div>
+<!--        <div>-->
+<!--            <div>Total Fuel Endurance</div>-->
+<!--            <div>{{ floorDecimalHours((fuelCalculation$ | async)?.totalEndurance) }}:{{ convertDecimalHoursToMinutes((fuelCalculation$ | async)?.totalEndurance) }}</div>-->
+<!--        </div>-->
     </mat-card-content>
     <mat-card-footer>
         <span>*Contingency fuel is considered 10% of the trip fuel.</span>

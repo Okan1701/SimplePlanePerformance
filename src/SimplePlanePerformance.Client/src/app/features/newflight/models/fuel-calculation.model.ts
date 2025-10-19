@@ -4,4 +4,5 @@ export type FuelCalculation = {
 	alternateFuel: number;
 	finalReserveFuel: number
     totalFuel: number;
+    totalEndurance: number;
 }

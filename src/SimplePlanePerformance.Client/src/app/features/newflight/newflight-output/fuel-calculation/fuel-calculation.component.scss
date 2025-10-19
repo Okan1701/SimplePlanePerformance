@@ -1,5 +1,10 @@
 $gray-text-color: #bfbfbf;
 
+mat-card-content {
+  display: flex;
+  justify-content: space-between;
+}
+
 mat-card-footer > span {
   font-style: italic;
   color: $gray-text-color;
