@@ -147,8 +147,6 @@ stages:
               artifactName: 'simpleplaneperformance-api-win-x64'
               downloadPath: '$(System.ArtifactsDirectory)'
               cleanDestinationFolder: true
-
-          - script: dir $(System.ArtifactsDirectory)\simpleplaneperformance-api-win-x64\src'
           
           - task: IISWebAppDeploy@2
             inputs:
