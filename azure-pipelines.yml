@@ -1,34 +1,306 @@
 trigger:
-- master
+  - master
 
-pool:
-  name: emeni-build-windows
+stages:
+  - stage: build
+    displayName: Build
+    variables:
+      dotnetVersion: 9.x
+      nodeVersion: 22.x
+    jobs:
+      - job: build_api
+        displayName: Build API
+        pool:
+          name: emeni-build-windows
+        steps:
+          - task: UseDotNet@2
+            displayName: Setup .NET $(dotnetVersion)
+            inputs:
+              packageType: "sdk"
+              version: $(dotnetVersion)
 
-steps:
-  - task: UseDotNet@2
-    displayName: Download .NET SDK
-    inputs:
-      packageType: 'sdk'
-      version: '9.0.x'
+          - task: DotNetCoreCLI@2
+            displayName: Install dotnet-ef
+            continueOnError: true
+            inputs:
+              command: 'custom'
+              custom: 'tool'
+              arguments: 'update dotnet-ef --global --ignore-failed-sources'
 
-  - task: UseNode@1
-    displayName: Download NodeJS
-    inputs:
-      version: 22.x
+          - task: DotNetCoreCLI@2
+            displayName: Publish API
+            inputs:
+              command: 'publish'
+              publishWebProjects: false
+              projects: './src/SimplePlanePerformance.WebAPI'
+              zipAfterPublish: false
+              configuration: Release
+              arguments: -o $(Build.ArtifactStagingDirectory)/ --runtime win-x64
 
-  - task: DotNetCoreCLI@2
-    displayName: Publish
-    inputs:
-      command: 'publish'
-      publishWebProjects: false
-      projects: './src/SimplePlanePerformance.WebAPI'
-      zipAfterPublish: false
-      configuration: Release
-      arguments: -o $(Build.ArtifactStagingDirectory)/SimplePlanePerformance.WebAPI --runtime win-x64
+          - task: DotNetCoreCLI@2
+            displayName: Generate database migration script
+            inputs:
+              command: 'custom'
+              custom: 'ef'
+              arguments: 'migrations script -o $(Build.ArtifactStagingDirectory)/scripts/migrations_$(Build.BuildNumber).sql -i -c SppDataContext -p SimplePlanePerformance.Core.csproj -s ../SimplePlanePerformance.WebAPI/SimplePlanePerformance.WebAPI.csproj'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/src/SimplePlanePerformance.Core'
 
-  - task: PublishBuildArtifacts@1
-    displayName: Upload Artifacts
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'simpleplaneperformance-win-x64'
-      publishLocation: 'Container'
+          - task: DeleteFiles@1
+            displayName: Delete .pdb files
+            inputs:
+              SourceFolder: '$(Build.ArtifactStagingDirectory)/'
+              Contents: '**/*.pdb'
+
+          - task: PublishBuildArtifacts@1
+            displayName: Upload Artifacts
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: simpleplaneperformance-api-win-x64
+              publishLocation: 'Container'
+      - job: build_client
+        displayName: Build Client
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: UseNode@1
+            displayName: Setup Node $(nodeVersion)
+            inputs:
+              version: $(nodeVersion)
+
+          - task: Npm@1
+            displayName: Install NPM dependencies
+            inputs:
+              command: "custom"
+              workingDir: "src/SimplePlanePerformance.Client"
+              customCommand: "ci"
+
+          - task: Npm@1
+            displayName: Build Client (PROD)
+            inputs:
+              command: "custom"
+              workingDir: "src/SimplePlanePerformance.Client"
+              customCommand: "run build-prod"
+
+          - task: CopyFiles@2
+            displayName: Copy Client (PROD)
+            inputs:
+              SourceFolder: "$(System.DefaultWorkingDirectory)/src/SimplePlanePerformance.Client/dist/simple-plane-performance.client"
+              Contents: "**"
+              TargetFolder: "$(Build.ArtifactStagingDirectory)/SimplePlanePerformance.Client_PROD"
+              CleanTargetFolder: true
+              OverWrite: true
+
+          - task: Npm@1
+            displayName: Build Client (STAGING)
+            inputs:
+              command: "custom"
+              workingDir: "src/SimplePlanePerformance.Client"
+              customCommand: "run build-staging"
+
+          - task: CopyFiles@2
+            displayName: Copy Client (STAGING)
+            inputs:
+              SourceFolder: "$(System.DefaultWorkingDirectory)/src/SimplePlanePerformance.Client/dist/simple-plane-performance.client"
+              Contents: "**"
+              TargetFolder: "$(Build.ArtifactStagingDirectory)/SimplePlanePerformance.Client_STAGING"
+              CleanTargetFolder: true
+              OverWrite: true
+
+          - task: Npm@1
+            displayName: Build Client (TESTING)
+            inputs:
+              command: "custom"
+              workingDir: "src/SimplePlanePerformance.Client"
+              customCommand: "run build-testing"
+
+          - task: CopyFiles@2
+            displayName: Copy Client (TESTING)
+            inputs:
+              SourceFolder: "$(System.DefaultWorkingDirectory)/src/SimplePlanePerformance.Client/dist/simple-plane-performance.client"
+              Contents: "**"
+              TargetFolder: "$(Build.ArtifactStagingDirectory)/SimplePlanePerformance.Client_TESTING"
+              CleanTargetFolder: true
+              OverWrite: true
+
+          - task: PublishBuildArtifacts@1
+            displayName: Upload Artifacts
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'simpleplaneperformance-client'
+              publishLocation: 'Container'
+  - stage: deploy_test
+    displayName: Deploy to Test
+    pool:
+      name: emeni-deploy-windows
+    variables:
+      - group: Emeni.local Deployment Variables
+      - group: simpleplaneperf-api-emeni-testing
+    jobs:
+      - deployment: deploy_apps
+        environment: simpleplaneperf-emeni-testing
+        displayName: Deploy Apps
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: none
+                - download: current
+
+                - task: FileTransform@2
+                  displayName: Fill appsettings.json
+                  inputs:
+                    folderPath: '$(Pipeline.Workspace)\simpleplaneperformance-api-win-x64\src'
+                    enableXmlTransform: false
+                    jsonTargetFiles: |
+                      appsettings.json
+                    errorOnInvalidSubstitution: true
+
+                - task: PowerShell@2
+                  displayName: Deploy API to IIS App
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      msdeploy -verb:sync -source:iisApp="$(Pipeline.Workspace)\simpleplaneperformance-api-win-x64\src" -dest:iisApp="SimplePlanePerformance/env_TEST/api",computerName="https://planeperformance.emeni.local:8172/msdeploy.axd",authType="NTLM" -enableRule:AppOffline -allowUntrusted
+
+                - task: PowerShell@2
+                  displayName: Deploy Client to IIS App
+                  inputs:
+                    targetType: 'inline'
+                    script: msdeploy -verb:sync -source:iisApp="$(Pipeline.Workspace)\simpleplaneperformance-client\SimplePlanePerformance.Client_TESTING\browser" -dest:iisApp="SimplePlanePerformance/env_TEST",computerName="https://planeperformance.emeni.local:8172/msdeploy.axd",authType="NTLM" -enableRule:AppOffline -allowUntrusted
+
+
+      - deployment: deploy_db
+        environment: simpleplaneperf-emeni-testing
+        displayName: Deploy Database
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: none
+                - download: current
+                  artifact: simpleplaneperformance-api-win-x64
+                - task: SqlDacpacDeploymentOnMachineGroup@0
+                  inputs:
+                    TaskType: 'sqlQuery'
+                    SqlFile: '$(Pipeline.Workspace)\simpleplaneperformance-api-win-x64\scripts\migrations_$(Build.BuildNumber).sql'
+                    ServerName: 'mssql-p.emeni.local'
+                    DatabaseName: 'simpleplaneperformance_testing'
+                    AuthScheme: 'windowsAuthentication'
+
+  - stage: deploy_stag
+    displayName: Deploy to Staging
+    pool:
+      name: emeni-deploy-windows
+    variables:
+      - group: Emeni.local Deployment Variables
+      - group: simpleplaneperf-api-emeni-staging
+    jobs:
+      - deployment: deploy_apps
+        environment: simpleplaneperf-emeni-staging
+        displayName: Deploy Apps
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: none
+                - download: current
+
+                - task: FileTransform@2
+                  displayName: Fill appsettings.json
+                  inputs:
+                    folderPath: '$(Pipeline.Workspace)\simpleplaneperformance-api-win-x64\src'
+                    enableXmlTransform: false
+                    jsonTargetFiles: |
+                      appsettings.json
+                    errorOnInvalidSubstitution: true
+
+                - task: PowerShell@2
+                  displayName: Deploy API to IIS App
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      msdeploy -verb:sync -source:iisApp="$(Pipeline.Workspace)\simpleplaneperformance-api-win-x64\src" -dest:iisApp="SimplePlanePerformance/env_STAG/api",computerName="https://planeperformance.emeni.local:8172/msdeploy.axd",authType="NTLM" -enableRule:AppOffline -allowUntrusted
+
+                - task: PowerShell@2
+                  displayName: Deploy Client to IIS App
+                  inputs:
+                    targetType: 'inline'
+                    script: msdeploy -verb:sync -source:iisApp="$(Pipeline.Workspace)\simpleplaneperformance-client\SimplePlanePerformance.Client_STAGING\browser" -dest:iisApp="SimplePlanePerformance/env_STAG",computerName="https://planeperformance.emeni.local:8172/msdeploy.axd",authType="NTLM" -enableRule:AppOffline -allowUntrusted
+
+
+      - deployment: deploy_db
+        environment: simpleplaneperf-emeni-staging
+        displayName: Deploy Database
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: none
+                - download: current
+                  artifact: simpleplaneperformance-api-win-x64
+                - task: SqlDacpacDeploymentOnMachineGroup@0
+                  inputs:
+                    TaskType: 'sqlQuery'
+                    SqlFile: '$(Pipeline.Workspace)\simpleplaneperformance-api-win-x64\scripts\migrations_$(Build.BuildNumber).sql'
+                    ServerName: 'mssql-p.emeni.local'
+                    DatabaseName: 'simpleplaneperformance_staging'
+                    AuthScheme: 'windowsAuthentication'
+
+  - stage: deploy_prod
+    displayName: Deploy to Production
+    pool:
+      name: emeni-deploy-windows
+    variables:
+      - group: Emeni.local Deployment Variables
+      - group: simpleplaneperf-api-emeni-prod
+    jobs:
+      - deployment: deploy_apps
+        environment: simpleplaneperf-emeni-prod
+        displayName: Deploy Apps
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: none
+                - download: current
+
+                - task: FileTransform@2
+                  displayName: Fill appsettings.json
+                  inputs:
+                    folderPath: '$(Pipeline.Workspace)\simpleplaneperformance-api-win-x64\src'
+                    enableXmlTransform: false
+                    jsonTargetFiles: |
+                      appsettings.json
+                    errorOnInvalidSubstitution: true
+
+                - task: PowerShell@2
+                  displayName: Deploy API to IIS App
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      msdeploy -verb:sync -source:iisApp="$(Pipeline.Workspace)\simpleplaneperformance-api-win-x64\src" -dest:iisApp="SimplePlanePerformance/env_PROD/api",computerName="https://planeperformance.emeni.local:8172/msdeploy.axd",authType="NTLM" -enableRule:AppOffline -allowUntrusted
+
+                - task: PowerShell@2
+                  displayName: Deploy Client to IIS App
+                  inputs:
+                    targetType: 'inline'
+                    script: msdeploy -verb:sync -source:iisApp="$(Pipeline.Workspace)\simpleplaneperformance-client\SimplePlanePerformance.Client_PROD\browser" -dest:iisApp="SimplePlanePerformance/env_PROD",computerName="https://planeperformance.emeni.local:8172/msdeploy.axd",authType="NTLM" -enableRule:AppOffline -allowUntrusted
+
+
+      - deployment: deploy_db
+        environment: simpleplaneperf-emeni-prod
+        displayName: Deploy Database
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: none
+                - download: current
+                  artifact: simpleplaneperformance-api-win-x64
+                - task: SqlDacpacDeploymentOnMachineGroup@0
+                  inputs:
+                    TaskType: 'sqlQuery'
+                    SqlFile: '$(Pipeline.Workspace)\simpleplaneperformance-api-win-x64\scripts\migrations_$(Build.BuildNumber).sql'
+                    ServerName: 'mssql-p.emeni.local'
+                    DatabaseName: 'simpleplaneperformance_prod'
+                    AuthScheme: 'windowsAuthentication'
