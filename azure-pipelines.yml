@@ -130,6 +130,7 @@ stages:
               publishLocation: 'Container'
   - stage: deploy_test
     displayName: Deploy to Test
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     pool:
       name: emeni-deploy-windows
     variables:
@@ -189,6 +190,7 @@ stages:
 
   - stage: deploy_stag
     displayName: Deploy to Staging
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     pool:
       name: emeni-deploy-windows
     variables:
@@ -248,6 +250,7 @@ stages:
 
   - stage: deploy_prod
     displayName: Deploy to Production
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     pool:
       name: emeni-deploy-windows
     variables:
